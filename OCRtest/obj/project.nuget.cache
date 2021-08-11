@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "Emldcp6snRw1R5YdEweKxCnWmbH5tdempb7uQJpFg8QLV7tI9M/VIxjVCSqLOuqV89jxRDl77Yw07l5nDxWXFg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\evidela\\Downloads\\OCRtest\\OCRtest\\OCRtest.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\evidela\\.nuget\\packages\\ironocr\\2021.8.0\\ironocr.2021.8.0.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\system.drawing.common\\5.0.2\\system.drawing.common.5.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

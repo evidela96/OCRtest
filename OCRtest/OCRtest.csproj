@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\netcoreapp3.1\images\982021_1.jpeg" />
+    <Content Include="bin\Debug\netcoreapp3.1\images\982021_2.jpeg" />
+    <Content Include="bin\Debug\netcoreapp3.1\images\HojaTest.jpeg" />
+    <Content Include="bin\Debug\netcoreapp3.1\images\pallet3.jpeg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="OCRtest.sln" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IronOcr" Version="2021.8.0" />
+  </ItemGroup>
+
+</Project>
