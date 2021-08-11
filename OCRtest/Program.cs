@@ -11,7 +11,9 @@ namespace OCRtest
         private static readonly string cutImagesPath= "C:/Users/Public/Picturesimages/cut_images/";
         private static readonly string finalImagePath= "C:/Users/Public/Picturesimages/final_images/";
         private static readonly String regEx = "[0-9]+-[0-9]+-[0-9]+";
-        private static readonly string sourceFiles = "C:/Users/evidela/Downloads/OCRtest/OCRtest/bin/Debug/netcoreapp3.1/images/";
+
+        //se debe cambiar este directorio
+        private static readonly string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/images";
 
         static void Main(string[] args)
         {
@@ -20,7 +22,7 @@ namespace OCRtest
 
             string[] imagePathArray = Directory.GetFiles(sourceFiles);
 
-            CreateDirectories();
+            ManageDirectories();
 
             foreach (var imagePath in imagePathArray)
             {
@@ -84,19 +86,14 @@ namespace OCRtest
             }
         }
 
-        private static void CreateDirectories()
+        private static void ManageDirectories()
         {
-            Directory.CreateDirectory(finalImagePath);
-            Directory.CreateDirectory(cutImagesPath);
-        }
-        private static void DeleteDirectories()
-        {
-            
-            foreach(var imageFile in Directory.GetFiles(finalImagePath)) {
-                Directory.Delete(imageFile);
+            if (!Directory.Exists(finalImagePath)) {
+                Directory.CreateDirectory(finalImagePath);
             }
-            foreach (var imageFile in Directory.GetFiles(cutImagesPath)) {
-                Directory.Delete(imageFile);
+            if (!Directory.Exists(cutImagesPath))
+            {
+                Directory.CreateDirectory(cutImagesPath);
             }
             
         }
