@@ -33,6 +33,7 @@ namespace OCRtest
 
                     foreach (var page in result.Pages)
                     {
+                        
                         MatchCollection mc = Regex.Matches(Ocr.Read(imagePath).Text, regEx);
                         
                         foreach (Match m in mc) {
