@@ -10,6 +10,7 @@ namespace OCRtest
     {
         private static readonly string cutImagesPath= "C:/Users/Public/Picturesimages_2/cut_images/";
         private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_2/final_images/";
+        private static readonly string failImagePath = "C:/Users/Public/Picturesimages_2/fail_images/";
         private static readonly String regEx = "[0-9]+-[0-9]+-[0-9]+";
 
         //se debe cambiar este directorio
@@ -161,6 +162,11 @@ namespace OCRtest
                         if (hit) break;
                     }
                 }
+                if (!hit)
+                {
+                    Image m = Image.FromFile(imagePath);
+                    m.Save(failImagePath + Path.GetFileNameWithoutExtension(imagePath) + "_"+ Guid.NewGuid().ToString().Substring(0, 4) + ".png");
+                }
             }
         }
 
@@ -173,7 +179,10 @@ namespace OCRtest
             {
                 Directory.CreateDirectory(cutImagesPath);
             }
-            
+            if (!Directory.Exists(failImagePath))
+            {
+                Directory.CreateDirectory(failImagePath);
+            }
         }
     }
 }
