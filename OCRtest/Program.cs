@@ -12,6 +12,7 @@ namespace OCRtest
         private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_2/final_images/";
         private static readonly string failImagePath = "C:/Users/Public/Picturesimages_2/fail_images/";
         private static readonly String regEx = "[0-9]+-[0-9]+-[0-9]+";
+        private static readonly string regEx2 = "[0-9][0-9][0-9] [0-9][0-9][0-9] [0-9][0-9][0-9]";
 
         //se debe cambiar este directorio
         private static readonly string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/images";
@@ -175,13 +176,34 @@ namespace OCRtest
             if (!Directory.Exists(finalImagePath)) {
                 Directory.CreateDirectory(finalImagePath);
             }
+            else
+            {
+                foreach(var filePath in Directory.GetFiles(finalImagePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
             if (!Directory.Exists(cutImagesPath))
             {
                 Directory.CreateDirectory(cutImagesPath);
             }
+            else
+            {
+                foreach (var filePath in Directory.GetFiles(cutImagesPath))
+                {
+                    File.Delete(filePath);
+                }
+            }
             if (!Directory.Exists(failImagePath))
             {
                 Directory.CreateDirectory(failImagePath);
+            }
+            else
+            {
+                foreach (var filePath in Directory.GetFiles(failImagePath))
+                {
+                    File.Delete(filePath);
+                }
             }
         }
     }
