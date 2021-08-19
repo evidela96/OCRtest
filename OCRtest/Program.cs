@@ -14,12 +14,12 @@ namespace OCRtest
         private static readonly string resizeCutImagesPath = "C:/Users/Public/Picturesimages_2/resize_cut_images/";
         private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_2/final_images/";
         private static readonly string failImagePath = "C:/Users/Public/Picturesimages_2/fail_images/";
-
+        private static readonly String regEx = "[0-9]+-[0-9]+-[0-9]+";
         private static readonly string regEx2 = "[0-9][0-9][0-9] [0-9][0-9][0-9] [0-9][0-9]";
 
         //se debe cambiar este directorio
-        private static readonly string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/images";
-
+        private static readonly string sourceFiles ="C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/images";
+        
         static void Main(string[] args)
         {
             var Ocr = new IronTesseract();
@@ -39,6 +39,7 @@ namespace OCRtest
                 {
                     
                     OcrResult result = Ocr.Read(input);
+                    
                     foreach(var line in result.Lines)
                     {
                         if(Regex.Match(line.Text , "[0-9]").Success)
@@ -60,7 +61,7 @@ namespace OCRtest
                                 + ".png";
                             Resize(linePath, resizeCutImagePath, 3.0);
                             
-                            if (Regex.Match(Ocr.Read(resizeCutImagePath).Text,regEx2).Success) {
+                            if (Regex.Match(Ocr.Read(resizeCutImagePath).Text,regEx).Success) {
                                 Console.WriteLine("File: " + Path.GetFileName(resizeCutImagePath) + " Read: " + Ocr.Read(resizeCutImagePath).Text);
                             }
                             
