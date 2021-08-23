@@ -52,13 +52,7 @@ namespace OCRtest
                         {
                             if (m.Success)
                             {
-                                hit = true;
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine("PAGE LEVEL : File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
-                                Console.ResetColor();
-                                var name = m.Value;
-                                Image img = Image.FromFile(imagePath);
-                                img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
+                                hit = saveImageWithLocation(imagePath, m);
                             }
                             if (hit) break;
                         }
@@ -81,13 +75,7 @@ namespace OCRtest
                                 {
                                     if (m.Success)
                                     {
-                                        hit = true;
-                                        Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine("PARAGRAPH LEVEL : File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
-                                        Console.ResetColor();
-                                        var name = m.Value;
-                                        Image img = Image.FromFile(imagePath);
-                                        img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
+                                        hit = saveImageWithLocation(imagePath,m);
                                     }
                                     if (hit) break;
                                 }
@@ -110,13 +98,7 @@ namespace OCRtest
                                         {
                                             if (m.Success)
                                             {
-                                                hit = true;
-                                                Console.ForegroundColor = ConsoleColor.Green;
-                                                Console.WriteLine("LINE LEVEL : File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
-                                                Console.ResetColor();
-                                                var name = m.Value;
-                                                Image img = Image.FromFile(imagePath);
-                                                img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
+                                                hit = saveImageWithLocation(imagePath,m);
                                             }
                                             if (hit) break;
                                         }
@@ -139,13 +121,7 @@ namespace OCRtest
                                                 {
                                                     if (m.Success)
                                                     {
-                                                        hit = true;
-                                                        Console.ForegroundColor = ConsoleColor.Green;
-                                                        Console.WriteLine("WORD LEVEL : File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
-                                                        Console.ResetColor();
-                                                        var name = m.Value;
-                                                        Image img = Image.FromFile(imagePath);
-                                                        img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
+                                                        hit = saveImageWithLocation(imagePath,m);
                                                     }
                                                     if (hit) break;
                                                 }
@@ -165,10 +141,27 @@ namespace OCRtest
                 }
                 if (!hit)
                 {
-                    Image m = Image.FromFile(imagePath);
-                    m.Save(failImagePath + Path.GetFileNameWithoutExtension(imagePath) + "_"+ Guid.NewGuid().ToString().Substring(0, 4) + ".png");
+                    saveImageWithNoLocation(imagePath);
                 }
             }
+        }
+
+        private static void saveImageWithNoLocation(string imagePath)
+        {
+            Image m = Image.FromFile(imagePath);
+            m.Save(failImagePath + Path.GetFileNameWithoutExtension(imagePath) + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
+        }
+
+        private static bool saveImageWithLocation(string imagePath, Match m)
+        {
+            bool hit = true;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
+            Console.ResetColor();
+            var name = m.Value;
+            Image img = Image.FromFile(imagePath);
+            img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
+            return hit;
         }
 
         private static void ManageDirectories()

@@ -6,10 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="bin\Debug\netcoreapp3.1\images\982021_1.jpeg" />
-    <Content Include="bin\Debug\netcoreapp3.1\images\982021_2.jpeg" />
-    <Content Include="bin\Debug\netcoreapp3.1\images\HojaTest.jpeg" />
-    <Content Include="bin\Debug\netcoreapp3.1\images\pallet3.jpeg" />
+    <Compile Remove="bin\Debug\netcoreapp3.1\images\**" />
+    <EmbeddedResource Remove="bin\Debug\netcoreapp3.1\images\**" />
+    <None Remove="bin\Debug\netcoreapp3.1\images\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +17,10 @@
 
   <ItemGroup>
     <PackageReference Include="IronOcr" Version="2021.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\Debug\netcoreapp3.1\" />
   </ItemGroup>
 
 </Project>
