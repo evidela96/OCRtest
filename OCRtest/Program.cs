@@ -8,18 +8,19 @@ namespace OCRtest
 {
     class Program
     {
-        private static readonly string cutImagesPath= "C:/Users/Public/Picturesimages_2/cut_images/";
-        private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_2/final_images/";
-        private static readonly string failImagePath = "C:/Users/Public/Picturesimages_2/fail_images/";
+        private static readonly string cutImagesPath= "C:/Users/Public/Picturesimages_3/cut_images/";
+        private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_3/final_images/";
+        private static readonly string failImagePath = "C:/Users/Public/Picturesimages_3/fail_images/";
         private static readonly String regEx = "[0-9]+-[0-9]+-[0-9]+";
         private static readonly string regEx2 = "[0-9][0-9][0-9] [0-9][0-9][0-9] [0-9][0-9][0-9]";
 
         //se debe cambiar este directorio
-        private static readonly string sourceFiles = "D:/DCIM/100MEDIA";
+        private static readonly string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/images2";
 
         static void Main(string[] args)
         {
             var Ocr = new IronTesseract();
+            MatchCollection mc;
             Ocr.Configuration.ReadBarCodes = false;
             bool hit;
             
@@ -34,94 +35,109 @@ namespace OCRtest
                 using (var Input = new OcrInput(imagePath))
                 {
                     OcrResult result = Ocr.Read(Input);
-
-                    foreach (var page in result.Pages)
+                    mc = Regex.Matches(result.Text, regEx);
+                    foreach (Match m in mc)
                     {
-                        Console.WriteLine("Trying Page {0} ...", page.PageNumber);
-                        string wordPath =
-                                        cutImagesPath
-                                        + Path.GetFileNameWithoutExtension(imagePath)
-                                        + "_cut_"
-                                        + page.PageNumber
-                                        + ".png";
-                        page.ToBitmap(Input).Save(wordPath);
-                        //Match m = Regex.Match(Ocr.Read(wordPath).Text, regEx);
-                        //aca estoy leyendo a nivel de pagina , tengo que leer a nivel de imagen antes y despues voy bajando
-                        MatchCollection mc = Regex.Matches(Ocr.Read(wordPath).Text, regEx);
-                        foreach (Match m in mc)
+                        if (m.Success)
                         {
-                            if (m.Success)
-                            {
-                                hit = saveImageWithLocation(imagePath, m);
-                            }
-                            if (hit) break;
+                            hit = saveImageWithLocation(imagePath, m);
                         }
-                        if (!hit) {
-                            
-                            foreach (var paragraph in page.Paragraphs)
+                    }
+                    if (!hit)
+                    {
+                        foreach (var page in result.Pages)
                             {
-                                Console.WriteLine("Trying Page {0} Paragraph {1}", page.PageNumber, paragraph.ParagraphNumber);
-                                 wordPath =
-                                        cutImagesPath
-                                        + Path.GetFileNameWithoutExtension(imagePath)
-                                        + "_cut_"
-                                        + page.PageNumber
-                                        + paragraph.ParagraphNumber
-                                        + ".png";
-                                paragraph.ToBitmap(Input).Save(wordPath);
-
+                                Console.WriteLine("Trying Page {0} ...", page.PageNumber);
+                                string wordPath =
+                                                cutImagesPath
+                                                + Path.GetFileNameWithoutExtension(imagePath)
+                                                + "_cut_"
+                                                + page.PageNumber
+                                                + ".png";
+                                page.ToBitmap(Input).Save(wordPath);
+                                //Match m = Regex.Match(Ocr.Read(wordPath).Text, regEx);
+                                //aca estoy leyendo a nivel de pagina , tengo que leer a nivel de imagen antes y despues voy bajando
                                 mc = Regex.Matches(Ocr.Read(wordPath).Text, regEx);
-                                foreach( Match m in mc)
+                                foreach (Match m in mc)
                                 {
                                     if (m.Success)
                                     {
-                                        hit = saveImageWithLocation(imagePath,m);
+                                        hit = saveImageWithLocation(imagePath, m);
                                     }
                                     if (hit) break;
                                 }
                                 if (!hit)
                                 {
-                                    foreach (var line in paragraph.Lines) {
-                                        Console.WriteLine("Trying Page {0} Paragraph {1} Line {2}", page.PageNumber, paragraph.ParagraphNumber,line.LineNumber);
+
+                                    foreach (var paragraph in page.Paragraphs)
+                                    {
+                                        Console.WriteLine("Trying Page {0} Paragraph {1}", page.PageNumber, paragraph.ParagraphNumber);
                                         wordPath =
-                                        cutImagesPath
-                                        + Path.GetFileNameWithoutExtension(imagePath)
-                                        + "_cut_"
-                                        + page.PageNumber
-                                        + paragraph.ParagraphNumber
-                                        + line.LineNumber
-                                        + ".png";
-                                        line.ToBitmap(Input).Save(wordPath);
+                                               cutImagesPath
+                                               + Path.GetFileNameWithoutExtension(imagePath)
+                                               + "_cut_"
+                                               + page.PageNumber
+                                               + paragraph.ParagraphNumber
+                                               + ".png";
+                                        paragraph.ToBitmap(Input).Save(wordPath);
 
                                         mc = Regex.Matches(Ocr.Read(wordPath).Text, regEx);
                                         foreach (Match m in mc)
                                         {
                                             if (m.Success)
                                             {
-                                                hit = saveImageWithLocation(imagePath,m);
+                                                hit = saveImageWithLocation(imagePath, m);
                                             }
                                             if (hit) break;
                                         }
                                         if (!hit)
-                                        {    
-                                            foreach (var word in line.Words) {
-                                                Console.WriteLine("Trying Page {0} Paragraph {1} Line {2} Word {3}", page.PageNumber, paragraph.ParagraphNumber, line.LineNumber,word.WordNumber);
+                                        {
+                                            foreach (var line in paragraph.Lines)
+                                            {
+                                                Console.WriteLine("Trying Page {0} Paragraph {1} Line {2}", page.PageNumber, paragraph.ParagraphNumber, line.LineNumber);
                                                 wordPath =
-                                                    cutImagesPath
-                                                    + Path.GetFileNameWithoutExtension(imagePath)
-                                                    + "_cut_"
-                                                    + page.PageNumber
-                                                    + paragraph.ParagraphNumber
-                                                    + line.LineNumber
-                                                    + word.WordNumber
-                                                    + ".png";
-                                                word.ToBitmap(Input).Save(wordPath);
+                                                cutImagesPath
+                                                + Path.GetFileNameWithoutExtension(imagePath)
+                                                + "_cut_"
+                                                + page.PageNumber
+                                                + paragraph.ParagraphNumber
+                                                + line.LineNumber
+                                                + ".png";
+                                                line.ToBitmap(Input).Save(wordPath);
+
                                                 mc = Regex.Matches(Ocr.Read(wordPath).Text, regEx);
                                                 foreach (Match m in mc)
                                                 {
                                                     if (m.Success)
                                                     {
-                                                        hit = saveImageWithLocation(imagePath,m);
+                                                        hit = saveImageWithLocation(imagePath, m);
+                                                    }
+                                                    if (hit) break;
+                                                }
+                                                if (!hit)
+                                                {
+                                                    foreach (var word in line.Words)
+                                                    {
+                                                        Console.WriteLine("Trying Page {0} Paragraph {1} Line {2} Word {3}", page.PageNumber, paragraph.ParagraphNumber, line.LineNumber, word.WordNumber);
+                                                        wordPath =
+                                                            cutImagesPath
+                                                            + Path.GetFileNameWithoutExtension(imagePath)
+                                                            + "_cut_"
+                                                            + page.PageNumber
+                                                            + paragraph.ParagraphNumber
+                                                            + line.LineNumber
+                                                            + word.WordNumber
+                                                            + ".png";
+                                                        word.ToBitmap(Input).Save(wordPath);
+                                                        mc = Regex.Matches(Ocr.Read(wordPath).Text, regEx);
+                                                        foreach (Match m in mc)
+                                                        {
+                                                            if (m.Success)
+                                                            {
+                                                                hit = saveImageWithLocation(imagePath, m);
+                                                            }
+                                                            if (hit) break;
+                                                        }
                                                     }
                                                     if (hit) break;
                                                 }
@@ -130,14 +146,13 @@ namespace OCRtest
                                         }
                                     }
                                     if (hit) break;
-
                                 }
+                                if (hit) break;
                             }
-                            if (hit) break;
-
-                        }
+                        
                         if (hit) break;
                     }
+                    
                 }
                 if (!hit)
                 {
@@ -154,14 +169,13 @@ namespace OCRtest
 
         private static bool saveImageWithLocation(string imagePath, Match m)
         {
-            bool hit = true;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
             Console.ResetColor();
             var name = m.Value;
             Image img = Image.FromFile(imagePath);
             img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
-            return hit;
+            return true;
         }
 
         private static void ManageDirectories()
