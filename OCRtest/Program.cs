@@ -34,7 +34,8 @@ namespace OCRtest
                 Bitmap b = new Bitmap(imagePath);
                 Rectangle r = new Rectangle(0, 100, 3968, 800);
                 Bitmap croppedImage = cropImage(b, r);
-                croppedImage.Save(cutImagesPath + "cut_" + Path.GetFileNameWithoutExtension(imagePath) + ".png");
+                string cutPath = cutImagesPath + "cut_" + Path.GetFileNameWithoutExtension(imagePath) + ".png";
+                croppedImage.Save(cutPath);
 
                 using (var input = new OcrInput(cutImagesPath + "cut_" + Path.GetFileNameWithoutExtension(imagePath) + ".png"))
                 {
