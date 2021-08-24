@@ -10,14 +10,13 @@ namespace OCRtest
 {
     class Program
     {
-        //private static readonly string cutImagesPath= "C:/Users/Public/Picturesimages/cut_images/";
         private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_3/final_images/";
         private static readonly string failImagePath = "C:/Users/Public/Picturesimages_3/fail_images/";
         private static readonly string cutImagesPath = "C:/Users/Public/Picturesimages_3/cut_images/";
         private static readonly String regEx = "[0-9]+-[0-9]+-[0-9]+";
         
         //se debe cambiar este directorio
-        private static readonly string sourceFiles = "E:/DCIM/100MEDIA";
+        private static readonly string sourceFiles = "C:/Users/Exequiel/Desktop/images";
 
         static void Main(string[] args)
         {
@@ -30,12 +29,7 @@ namespace OCRtest
             {
                 hit = false;
                 Console.WriteLine("Trying {0} ...", Path.GetFileName(imagePath));
-                //using (var Input = new OcrInput(imagePath))
-                //{
-                //OcrResult result = Ocr.Read(
-                //    imagePath,
-                //    new Rectangle(0,0,3968,1300)
-                //);
+                
                 Bitmap b = new Bitmap(imagePath);
                 Rectangle r = new Rectangle(0, 100, 3968, 800);
                 Bitmap croppedImage = cropImage(b, r);
