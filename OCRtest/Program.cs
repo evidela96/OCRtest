@@ -13,10 +13,11 @@ namespace OCRtest
         private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_3/final_images/";
         private static readonly string failImagePath = "C:/Users/Public/Picturesimages_3/fail_images/";
         private static readonly string cutImagesPath = "C:/Users/Public/Picturesimages_3/cut_images/";
-        private static readonly String regEx = "[0-9]+-[0-9]+-[0-9]+";
+        private static readonly String regEx =
+            "([0-9]+-[0-9]+-[0-9]+)|([0-9][0-9]+ [0-9][0-9]+)|([0-9]+-[0-9]+)|(-[0-9]+-[0-9]+)";
         
         //se debe cambiar este directorio
-        private static readonly string sourceFiles = "C:/Users/Exequiel/Desktop/images";
+        private static readonly string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/images2";
 
         static void Main(string[] args)
         {
@@ -41,13 +42,51 @@ namespace OCRtest
                     OcrResult result = Ocr.Read(input);
                     foreach (var line in result.Lines)
                     {
-                        Match m = Regex.Match(line.Text, regEx);
-                        if(m.Success)
+                        //Match m = Regex.Match(line.Text, regEx);
+                        MatchCollection mc = Regex.Matches(line.Text, regEx);
+                        foreach(Match m in mc)
                         {
-
-                            hit = saveImageWithLocation(imagePath,m);
+                            if (m.Success)
+                            {
+                                hit = saveImageWithLocation(imagePath, m);
+                            }
                         }
+                        //if (m.Success)
+                        //{
+                        //    hit = saveImageWithLocation(imagePath, m);
+                        //}
                         if (hit) break;
+                    }
+                    if (!hit)
+                    {
+                        foreach(var line in result.Lines)
+                        {
+                            if (Regex.Match(line.Text, "[0-9]").Success)
+                            {
+                                //Console.WriteLine("Found {0} in Line {2} at {1}", line.Text, Path.GetFileName(imagePath),line.LineNumber);
+                                string linePath =
+                                        cutImagesPath
+                                        + "line_"
+                                        + line.LineNumber
+                                        + "_"
+                                        + Path.GetFileNameWithoutExtension(imagePath)
+                                        + ".png";
+                                line.ToBitmap(input).Save(linePath);
+                                //Match m = Regex.Match(Ocr.Read(linePath).Text, regEx);
+                                MatchCollection mc = Regex.Matches(Ocr.Read(linePath).Text, regEx);
+                                foreach(Match m in mc)
+                                {
+                                    if (m.Success)
+                                    {
+                                        hit = saveImageWithLocation(imagePath, m);
+                                    }
+                                }
+                                //if (m.Success)
+                                //{
+                                //    hit = saveImageWithLocation(imagePath, m);
+                                //}
+                            } if (hit) break;
+                        }
                     }
                     if (!hit)
                     {
@@ -55,34 +94,6 @@ namespace OCRtest
                         saveImageWithNoLocation(imagePath);
                     }
                 }
-                //Console.WriteLine("File {0} , Text read: {1}", Path.GetFileName(imagePath), Ocr.Read(
-                //        imagePath,
-                //        new Rectangle(0,0,3968,1300)
-                //    ).Text);
-                //foreach (var page in result.Pages)
-                //{
-
-                //MatchCollection mc = Regex.Matches(result.Text, regEx);
-
-                //foreach (Match m in mc) {
-
-                //    if (m.Success)
-                //    {
-                //        Console.WriteLine("File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
-                //        var name = m.Value;
-                //        Image img = Image.FromFile(imagePath);
-                //        img.Save(finalImagePath + m.Value +"_"+ Guid.NewGuid().ToString().Substring(0,3)+ ".jpg");
-                //        hit = true;
-                //    }
-                //    if (hit) break;
-                //}
-                //if (!hit)
-                //{
-                //    Console.WriteLine("Could not read location of {0}", Path.GetFileName(imagePath));
-                //    saveImageWithNoLocation(imagePath);
-                //}
-                //}
-                //}
             }
         }
 
@@ -133,7 +144,6 @@ namespace OCRtest
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
             Console.ResetColor();
-            var name = m.Value;
             Image img = Image.FromFile(imagePath);
             img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
             return hit;
