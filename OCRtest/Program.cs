@@ -13,13 +13,12 @@ namespace OCRtest
         private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_3/final_images/";
         private static readonly string failImagePath = "C:/Users/Public/Picturesimages_3/fail_images/";
         private static readonly string cutImagesPath = "C:/Users/Public/Picturesimages_3/cut_images/";
-        private static readonly String regEx =
-            "([0-9]+-[0-9]+-[0-9]+)|([0-9][0-9]+ [0-9][0-9]+)|([0-9]+-[0-9]+)|(-[0-9]+-[0-9]+)";
+        private static readonly String regEx ="[0-9]+-[0-9]+-[0-9]+";
         
         //se debe cambiar este directorio
         private static readonly string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/images2";
 
-        static void Main(string[] args)
+        static void Main()
         {
             var Ocr = new IronTesseract();
             bool hit;
@@ -30,41 +29,35 @@ namespace OCRtest
             {
                 hit = false;
                 Console.WriteLine("Trying {0} ...", Path.GetFileName(imagePath));
-                
+
                 Bitmap b = new Bitmap(imagePath);
                 Rectangle r = new Rectangle(0, 100, 3968, 800);
-                Bitmap croppedImage = cropImage(b, r);
+                Bitmap croppedImage = CropImage(b, r);
                 string cutPath = cutImagesPath + "cut_" + Path.GetFileNameWithoutExtension(imagePath) + ".png";
                 croppedImage.Save(cutPath);
 
-                using (var input = new OcrInput(cutImagesPath + "cut_" + Path.GetFileNameWithoutExtension(imagePath) + ".png"))
+                using (var input = new OcrInput(cutPath))
                 {
-                    
+
                     OcrResult result = Ocr.Read(input);
                     foreach (var line in result.Lines)
                     {
-                        //Match m = Regex.Match(line.Text, regEx);
                         MatchCollection mc = Regex.Matches(line.Text, regEx);
-                        foreach(Match m in mc)
+                        foreach (Match m in mc)
                         {
                             if (m.Success)
                             {
-                                hit = saveImageWithLocation(imagePath, m);
+                                hit = SaveImageWithLocation(imagePath, m);
                             }
                         }
-                        //if (m.Success)
-                        //{
-                        //    hit = saveImageWithLocation(imagePath, m);
-                        //}
                         if (hit) break;
                     }
                     if (!hit)
                     {
-                        foreach(var line in result.Lines)
+                        foreach (var line in result.Lines)
                         {
                             if (Regex.Match(line.Text, "[0-9]").Success)
                             {
-                                //Console.WriteLine("Found {0} in Line {2} at {1}", line.Text, Path.GetFileName(imagePath),line.LineNumber);
                                 string linePath =
                                         cutImagesPath
                                         + "line_"
@@ -73,32 +66,29 @@ namespace OCRtest
                                         + Path.GetFileNameWithoutExtension(imagePath)
                                         + ".png";
                                 line.ToBitmap(input).Save(linePath);
-                                //Match m = Regex.Match(Ocr.Read(linePath).Text, regEx);
                                 MatchCollection mc = Regex.Matches(Ocr.Read(linePath).Text, regEx);
-                                foreach(Match m in mc)
+                                foreach (Match m in mc)
                                 {
                                     if (m.Success)
                                     {
-                                        hit = saveImageWithLocation(imagePath, m);
+                                        hit = SaveImageWithLocation(imagePath, m);
                                     }
+
                                 }
-                                //if (m.Success)
-                                //{
-                                //    hit = saveImageWithLocation(imagePath, m);
-                                //}
-                            } if (hit) break;
+                                if (hit) break;
+                            }
                         }
-                    }
-                    if (!hit)
-                    {
-                        Console.WriteLine("MISS");
-                        saveImageWithNoLocation(imagePath);
+                        if (!hit)
+                        {
+                            Console.WriteLine("MISS");
+                            SaveImageWithNoLocation(imagePath);
+                        }
                     }
                 }
             }
         }
 
-        private static void ManageDirectories()
+        public static void ManageDirectories()
         {
             if (!Directory.Exists(finalImagePath))
             {
@@ -134,12 +124,12 @@ namespace OCRtest
                 }
             }
         }
-        private static void saveImageWithNoLocation(string imagePath)
+        public static void SaveImageWithNoLocation(string imagePath)
         {
             Image m = Image.FromFile(imagePath);
             m.Save(failImagePath + Path.GetFileNameWithoutExtension(imagePath) + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
         }
-        private static bool saveImageWithLocation(string imagePath, Match m)
+        public static bool SaveImageWithLocation(string imagePath, Match m)
         {
             bool hit = true;
             Console.ForegroundColor = ConsoleColor.Green;
@@ -149,7 +139,7 @@ namespace OCRtest
             img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
             return hit;
         }
-        public static Bitmap cropImage(Bitmap source, Rectangle section)
+        public static Bitmap CropImage(Bitmap source, Rectangle section)
         {
             var bitmap = new Bitmap(section.Width, section.Height);
             using (var g = Graphics.FromImage(bitmap))
@@ -158,5 +148,6 @@ namespace OCRtest
                 return bitmap;
             }
         }
+    
     }
 }
