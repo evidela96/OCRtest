@@ -13,10 +13,10 @@ namespace OCRtest
         private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_3/final_images/";
         private static readonly string failImagePath = "C:/Users/Public/Picturesimages_3/fail_images/";
         private static readonly string cutImagesPath = "C:/Users/Public/Picturesimages_3/cut_images/";
-        private static readonly String regEx ="[0-9]+-[0-9]+-[0-9]+";
+        private static readonly String regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)|([0-9][0-9]+ [0-9][0-9]+ [0-9][0-9]+)";
         
         //se debe cambiar este directorio
-        private static readonly string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/images2";
+        private static readonly string sourceFiles = "D:/DCIM/100MEDIA";
 
         static void Main()
         {
@@ -27,11 +27,12 @@ namespace OCRtest
 
             foreach (var imagePath in imagePathArray)
             {
+                //int maxWidth = Image.FromFile(imagePath).Width;
                 hit = false;
                 Console.WriteLine("Trying {0} ...", Path.GetFileName(imagePath));
 
                 Bitmap b = new Bitmap(imagePath);
-                Rectangle r = new Rectangle(0, 100, 3968, 800);
+                Rectangle r = new Rectangle(0, 2176, 3968, 800);
                 Bitmap croppedImage = CropImage(b, r);
                 string cutPath = cutImagesPath + "cut_" + Path.GetFileNameWithoutExtension(imagePath) + ".png";
                 croppedImage.Save(cutPath);
