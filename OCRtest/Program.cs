@@ -2,153 +2,51 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Security;
 using System.Text.RegularExpressions;
 using IronOcr;
-
+using static OCRtest.AuthenticationManager;
 
 namespace OCRtest
 {
     class Program
     {
         private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_3/final_images/";
-        private static readonly string failImagePath = "C:/Users/Public/Picturesimages_3/fail_images/";
-        private static readonly string cutImagesPath = "C:/Users/Public/Picturesimages_3/cut_images/";
-        private static readonly String regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)|([0-9][0-9]+ [0-9][0-9]+ [0-9][0-9]+)";
-        
-        //se debe cambiar este directorio
-        private static readonly string sourceFiles = "D:/DCIM/100MEDIA";
-
-        static void Main()
+        public static string[] imagePathArray = Directory.GetFiles(finalImagePath);
+        static async System.Threading.Tasks.Task Main()
         {
-            var Ocr = new IronTesseract();
-            bool hit;
-            string[] imagePathArray = Directory.GetFiles(sourceFiles);
-            ManageDirectories();
-
-            foreach (var imagePath in imagePathArray)
+            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
+            string user = "evidela@andreani.com";
+            Console.WriteLine("User : {0}",user);
+            SecureString password = GetSecureString();
+            // Note: The PnP Sites Core AuthenticationManager class also supports this
+            using (var authenticationManager = new AuthenticationManager())
+            using (var context = authenticationManager.GetContext(site, user, password))
             {
-                //int maxWidth = Image.FromFile(imagePath).Width;
-                hit = false;
-                Console.WriteLine("Trying {0} ...", Path.GetFileName(imagePath));
+                context.Load(context.Web, p => p.Title);
+                await context.ExecuteQueryAsync();
+                Console.WriteLine($"Title: {context.Web.Title}");
+            }
+        }
 
-                Bitmap b = new Bitmap(imagePath);
-                Rectangle r = new Rectangle(0, 2176, 3968, 800);
-                Bitmap croppedImage = CropImage(b, r);
-                string cutPath = cutImagesPath + "cut_" + Path.GetFileNameWithoutExtension(imagePath) + ".png";
-                croppedImage.Save(cutPath);
+        private static SecureString GetSecureString()
+        {
+            // Instantiate the secure string.
+            SecureString securePwd = new SecureString();
+            ConsoleKeyInfo key;
 
-                using (var input = new OcrInput(cutPath))
-                {
-
-                    OcrResult result = Ocr.Read(input);
-                    foreach (var line in result.Lines)
-                    {
-                        MatchCollection mc = Regex.Matches(line.Text, regEx);
-                        foreach (Match m in mc)
-                        {
-                            if (m.Success)
-                            {
-                                hit = SaveImageWithLocation(imagePath, m);
-                            }
-                        }
-                        if (hit) break;
-                    }
-                    if (!hit)
-                    {
-                        foreach (var line in result.Lines)
-                        {
-                            if (Regex.Match(line.Text, "[0-9]").Success)
-                            {
-                                string linePath =
-                                        cutImagesPath
-                                        + "line_"
-                                        + line.LineNumber
-                                        + "_"
-                                        + Path.GetFileNameWithoutExtension(imagePath)
-                                        + ".png";
-                                line.ToBitmap(input).Save(linePath);
-                                MatchCollection mc = Regex.Matches(Ocr.Read(linePath).Text, regEx);
-                                foreach (Match m in mc)
-                                {
-                                    if (m.Success)
-                                    {
-                                        hit = SaveImageWithLocation(imagePath, m);
-                                    }
-
-                                }
-                                if (hit) break;
-                            }
-                        }
-                        if (!hit)
-                        {
-                            Console.WriteLine("MISS");
-                            SaveImageWithNoLocation(imagePath);
-                        }
-                    }
+            Console.Write("Enter password: ");
+            do
+            {
+                key = Console.ReadKey(true);
+                // Append the character to the password.
+                if(key.Key != ConsoleKey.Enter) {
+                    securePwd.AppendChar(key.KeyChar);
+                    Console.Write("*");
                 }
-            }
+                // Exit if Enter key is pressed.
+            } while (key.Key != ConsoleKey.Enter);
+            return securePwd;
         }
-
-        public static void ManageDirectories()
-        {
-            if (!Directory.Exists(finalImagePath))
-            {
-                Directory.CreateDirectory(finalImagePath);
-            }
-            else
-            {
-                foreach (var filePath in Directory.GetFiles(finalImagePath))
-                {
-                    File.Delete(filePath);
-                }
-            }
-            if (!Directory.Exists(failImagePath))
-            {
-                Directory.CreateDirectory(failImagePath);
-            }
-            else
-            {
-                foreach (var filePath in Directory.GetFiles(failImagePath))
-                {
-                    File.Delete(filePath);
-                }
-            }
-            if (!Directory.Exists(cutImagesPath))
-            {
-                Directory.CreateDirectory(cutImagesPath);
-            }
-            else
-            {
-                foreach (var filePath in Directory.GetFiles(cutImagesPath))
-                {
-                    File.Delete(filePath);
-                }
-            }
-        }
-        public static void SaveImageWithNoLocation(string imagePath)
-        {
-            Image m = Image.FromFile(imagePath);
-            m.Save(failImagePath + Path.GetFileNameWithoutExtension(imagePath) + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
-        }
-        public static bool SaveImageWithLocation(string imagePath, Match m)
-        {
-            bool hit = true;
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
-            Console.ResetColor();
-            Image img = Image.FromFile(imagePath);
-            img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
-            return hit;
-        }
-        public static Bitmap CropImage(Bitmap source, Rectangle section)
-        {
-            var bitmap = new Bitmap(section.Width, section.Height);
-            using (var g = Graphics.FromImage(bitmap))
-            {
-                g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
-                return bitmap;
-            }
-        }
-    
     }
 }
