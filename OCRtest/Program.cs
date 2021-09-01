@@ -6,19 +6,19 @@ using System.Security;
 using System.Text.RegularExpressions;
 using IronOcr;
 using static OCRtest.AuthenticationManager;
+using Microsoft.SharePoint.Client;
+using System.Threading.Tasks;
 
 namespace OCRtest
 {
     class Program
     {
-        private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_3/final_images/";
-        public static string[] imagePathArray = Directory.GetFiles(finalImagePath);
-        static async System.Threading.Tasks.Task Main()
+        static async Task Main()
         {
-            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
+            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/Inventario");
             string user = "evidela@andreani.com";
-            Console.WriteLine("User : {0}",user);
             SecureString password = GetSecureString();
+
             // Note: The PnP Sites Core AuthenticationManager class also supports this
             using (var authenticationManager = new AuthenticationManager())
             using (var context = authenticationManager.GetContext(site, user, password))
@@ -28,7 +28,6 @@ namespace OCRtest
                 Console.WriteLine($"Title: {context.Web.Title}");
             }
         }
-
         private static SecureString GetSecureString()
         {
             // Instantiate the secure string.

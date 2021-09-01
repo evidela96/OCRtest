@@ -15,7 +15,7 @@ namespace OCRtest
     {
         private static readonly HttpClient httpClient = new HttpClient();
         private const string tokenEndpoint = "https://login.microsoftonline.com/common/oauth2/token";
-        private const string defaultAADAppId = "0deaeb88-9360-4438-b415-022789b10231";
+        private const string defaultAADAppId = "df82286a-8297-412c-8fa0-a558fb62b826";
 
         // Token cache handling
         private static readonly SemaphoreSlim semaphoreSlimTokens = new SemaphoreSlim(1);
