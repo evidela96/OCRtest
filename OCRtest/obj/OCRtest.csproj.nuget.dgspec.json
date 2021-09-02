@@ -48,7 +48,23 @@
           "dependencies": {
             "IronOcr": {
               "target": "Package",
-              "version": "[2021.8.0, )"
+              "version": "[2021.9.0, )"
+            },
+            "Microsoft.SharePointOnline.CSOM": {
+              "target": "Package",
+              "version": "[16.1.21610.12000, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.12.2, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[5.0.2, )"
             }
           },
           "imports": [
