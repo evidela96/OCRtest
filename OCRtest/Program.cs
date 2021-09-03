@@ -16,7 +16,7 @@ namespace OCRtest
         private static readonly String regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)|([0-9][0-9]+ [0-9][0-9]+ [0-9][0-9]+)";
         
         //se debe cambiar este directorio
-        private static readonly string sourceFiles = "D:/DCIM/100MEDIA";
+        private static readonly string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/source_images";
 
         static void Main()
         {
