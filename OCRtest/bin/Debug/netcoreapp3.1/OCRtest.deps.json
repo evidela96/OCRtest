@@ -8,20 +8,20 @@
     ".NETCoreApp,Version=v3.1": {
       "OCRtest/1.0.0": {
         "dependencies": {
-          "IronOcr": "2021.8.0"
+          "IronOcr": "2021.9.0"
         },
         "runtime": {
           "OCRtest.dll": {}
         }
       },
-      "IronOcr/2021.8.0": {
+      "IronOcr/2021.9.0": {
         "dependencies": {
           "System.Drawing.Common": "5.0.2"
         },
         "runtime": {
           "lib/netstandard2.0/IronOcr.dll": {
-            "assemblyVersion": "2021.8.0.0",
-            "fileVersion": "2021.8.0.0"
+            "assemblyVersion": "2021.9.0.0",
+            "fileVersion": "2021.9.0.0"
           }
         }
       },
@@ -78,12 +78,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "IronOcr/2021.8.0": {
+    "IronOcr/2021.9.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-3Y7UBB+sHcqxynEHwd2OwqC3LoQofmG0D+Xf22uzJQOP6QJTyDjPRWWGT0arJKM+leTsigQtokDsBvjMcAsW5A==",
-      "path": "ironocr/2021.8.0",
-      "hashPath": "ironocr.2021.8.0.nupkg.sha512"
+      "sha512": "sha512-j47J5psf3KvkPL0QG/VJXuvV4J4YWH0RlGUSOyVeQt/fcb0owV8pc+/sa+SNTKcz9e33Z1lQ7hvAzitF2QDCdw==",
+      "path": "ironocr/2021.9.0",
+      "hashPath": "ironocr.2021.9.0.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/5.0.0": {
       "type": "package",

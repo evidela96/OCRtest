@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "IronOcr/2021.8.0": {
+      "IronOcr/2021.9.0": {
         "type": "package",
         "dependencies": {
           "System.Drawing.Common": "5.0.2"
@@ -66,15 +66,15 @@
     }
   },
   "libraries": {
-    "IronOcr/2021.8.0": {
-      "sha512": "3Y7UBB+sHcqxynEHwd2OwqC3LoQofmG0D+Xf22uzJQOP6QJTyDjPRWWGT0arJKM+leTsigQtokDsBvjMcAsW5A==",
+    "IronOcr/2021.9.0": {
+      "sha512": "j47J5psf3KvkPL0QG/VJXuvV4J4YWH0RlGUSOyVeQt/fcb0owV8pc+/sa+SNTKcz9e33Z1lQ7hvAzitF2QDCdw==",
       "type": "package",
-      "path": "ironocr/2021.8.0",
+      "path": "ironocr/2021.9.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "EULA.txt",
-        "ironocr.2021.8.0.nupkg.sha512",
+        "ironocr.2021.9.0.nupkg.sha512",
         "ironocr.nuspec",
         "lib/net40/IronOcr.dll",
         "lib/net40/IronOcr.xml",
@@ -175,7 +175,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "IronOcr >= 2021.8.0"
+      "IronOcr >= 2021.9.0"
     ]
   },
   "packageFolders": {
@@ -186,11 +186,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\evidela\\Downloads\\OCRtest\\OCRtest\\OCRtest.csproj",
+      "projectUniqueName": "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\OCRtest.csproj",
       "projectName": "OCRtest",
-      "projectPath": "C:\\Users\\evidela\\Downloads\\OCRtest\\OCRtest\\OCRtest.csproj",
+      "projectPath": "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\OCRtest.csproj",
       "packagesPath": "C:\\Users\\evidela\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\evidela\\Downloads\\OCRtest\\OCRtest\\obj\\",
+      "outputPath": "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -227,7 +227,7 @@
         "dependencies": {
           "IronOcr": {
             "target": "Package",
-            "version": "[2021.8.0, )"
+            "version": "[2021.9.0, )"
           }
         },
         "imports": [

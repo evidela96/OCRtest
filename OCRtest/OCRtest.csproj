@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IronOcr" Version="2021.8.0" />
+    <PackageReference Include="IronOcr" Version="2021.9.0" />
   </ItemGroup>
 
 </Project>
