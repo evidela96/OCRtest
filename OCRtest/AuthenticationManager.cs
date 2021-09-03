@@ -15,6 +15,8 @@ namespace OCRtest
     {
         private static readonly HttpClient httpClient = new HttpClient();
         private const string tokenEndpoint = "https://login.microsoftonline.com/common/oauth2/token";
+
+        //aca hay que modificar este id con el id que te genera Azure AD
         private const string defaultAADAppId = "df82286a-8297-412c-8fa0-a558fb62b826";
 
         // Token cache handling

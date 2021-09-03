@@ -62,6 +62,10 @@
               "target": "Package",
               "version": "[6.12.2, )"
             },
+            "System.Security.SecureString": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "System.Text.Json": {
               "target": "Package",
               "version": "[5.0.2, )"
