@@ -9,6 +9,7 @@
       "OCRtest/1.0.0": {
         "dependencies": {
           "IronOcr": "2021.9.0",
+          "Microsoft.Identity.Client": "4.36.0",
           "Microsoft.SharePointOnline.CSOM": "16.1.21610.12000",
           "Newtonsoft.Json": "13.0.1",
           "System.IdentityModel.Tokens.Jwt": "6.12.2",
@@ -31,6 +32,14 @@
         }
       },
       "Microsoft.CSharp/4.5.0": {},
+      "Microsoft.Identity.Client/4.36.0": {
+        "runtime": {
+          "lib/netcoreapp2.1/Microsoft.Identity.Client.dll": {
+            "assemblyVersion": "4.36.0.0",
+            "fileVersion": "4.36.0.0"
+          }
+        }
+      },
       "Microsoft.IdentityModel.JsonWebTokens/6.12.2": {
         "dependencies": {
           "Microsoft.IdentityModel.Tokens": "6.12.2"
@@ -353,6 +362,13 @@
       "sha512": "sha512-kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
       "path": "microsoft.csharp/4.5.0",
       "hashPath": "microsoft.csharp.4.5.0.nupkg.sha512"
+    },
+    "Microsoft.Identity.Client/4.36.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iSBniRMwVwpdlkOcFmAJmXSNhDm0rhbadtO16kg+80Y2wxR2oIOSyxtW9fAQDyS0xN2epbD7ZTJ9nFLzwiU1kg==",
+      "path": "microsoft.identity.client/4.36.0",
+      "hashPath": "microsoft.identity.client.4.36.0.nupkg.sha512"
     },
     "Microsoft.IdentityModel.JsonWebTokens/6.12.2": {
       "type": "package",

@@ -8,6 +8,8 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Net;
+using Microsoft.Identity.Client;
 
 namespace OCRtest
 {
@@ -29,33 +31,35 @@ namespace OCRtest
         {
             public RegisteredWaitHandle Handle = null;
         }
-
-        public ClientContext GetContext(Uri web, string userPrincipalName, SecureString userPassword)
+        public ClientContext GetContext(Uri web, string clientId, string clientSecret, string tenantId, string appScope, string userName, string password)
         {
             var context = new ClientContext(web);
+            var resourceUri = new Uri($"{web.Scheme}://{web.DnsSafeHost}");
 
+            async Task<string> AcquireTokenAsyncFunc(string clientIdFunc, string tenantIdFunc) => await AcquireTokenAsync(resourceUri, clientIdFunc, clientSecret, tenantIdFunc, appScope, userName, password);
             context.ExecutingWebRequest += (sender, e) =>
             {
-                string accessToken = EnsureAccessTokenAsync(new Uri($"{web.Scheme}://{web.DnsSafeHost}"), userPrincipalName, new System.Net.NetworkCredential(string.Empty, userPassword).Password).GetAwaiter().GetResult();
-                e.WebRequestExecutor.RequestHeaders["Authorization"] = "Bearer " + accessToken;
+                var cacheKey = $"{web.DnsSafeHost}_{userName}";
+                string accessToken = EnsureAccessTokenAsync(resourceUri, cacheKey, clientId, tenantId, AcquireTokenAsyncFunc).GetAwaiter().GetResult();
+                e.WebRequestExecutor.RequestHeaders["Authorization"] = $"Bearer {accessToken}";
             };
 
             return context;
         }
 
 
-        public async Task<string> EnsureAccessTokenAsync(Uri resourceUri, string userPrincipalName, string userPassword)
+        public async Task<string> EnsureAccessTokenAsync(Uri resourceUri, string cacheKey, string clientId, string tenantId, Func<string, string, Task<string>> acquireTokenAsyncFunc)
         {
-            string accessTokenFromCache = TokenFromCache(resourceUri, tokenCache);
+            string accessTokenFromCache = TokenFromCache(cacheKey, tokenCache);
             if (accessTokenFromCache == null)
             {
                 await semaphoreSlimTokens.WaitAsync().ConfigureAwait(false);
                 try
                 {
                     // No async methods are allowed in a lock section
-                    string accessToken = await AcquireTokenAsync(resourceUri, userPrincipalName, userPassword).ConfigureAwait(false);
-                    Console.WriteLine($"Successfully requested new access token resource {resourceUri.DnsSafeHost} for user {userPrincipalName}");
-                    AddTokenToCache(resourceUri, tokenCache, accessToken);
+                    string accessToken = await acquireTokenAsyncFunc(clientId,tenantId).ConfigureAwait(false);
+                    Console.WriteLine($"Successfully requested new access token resource {resourceUri.DnsSafeHost} for user {clientId}");
+                    AddTokenToCache(cacheKey, tokenCache, accessToken);
 
                     // Register a thread to invalidate the access token once's it's expired
                     tokenResetEvent = new AutoResetEvent(false);
@@ -78,13 +82,13 @@ namespace OCRtest
                                 {
                                     // Take a lock to ensure no other threads are updating the SharePoint Access token at this time
                                     await semaphoreSlimTokens.WaitAsync().ConfigureAwait(false);
-                                    RemoveTokenFromCache(resourceUri, tokenCache);
-                                    Console.WriteLine($"Cached token for resource {resourceUri.DnsSafeHost} and user {userPrincipalName} expired");
+                                    RemoveTokenFromCache(cacheKey, tokenCache);
+                                    Console.WriteLine($"Cached token for resource {resourceUri.DnsSafeHost} and user {clientId} expired");
                                 }
                                 catch (Exception ex)
                                 {
                                     Console.WriteLine($"Something went wrong during cache token invalidation: {ex.Message}");
-                                    RemoveTokenFromCache(resourceUri, tokenCache);
+                                    RemoveTokenFromCache(cacheKey, tokenCache);
                                 }
                                 finally
                                 {
@@ -107,56 +111,58 @@ namespace OCRtest
             }
             else
             {
-                Console.WriteLine($"Returning token from cache for resource {resourceUri.DnsSafeHost} and user {userPrincipalName}");
+                Console.WriteLine($"Returning token from cache for resource {resourceUri.DnsSafeHost} and user {clientId}");
                 return accessTokenFromCache;
             }
         }
-
-        private async Task<string> AcquireTokenAsync(Uri resourceUri, string username, string password)
+        private async Task<string> AcquireTokenAsync(Uri resourceUri, string clientId, string clientSecret, string tenantId, string appScope, string userName, string password)
         {
-            string resource = $"{resourceUri.Scheme}://{resourceUri.DnsSafeHost}";
+            string[] spScopes = new string[] { $"{resourceUri.Scheme}://{resourceUri.DnsSafeHost}/.default" };
+            string[] appScopes = new string[] { appScope };
 
-            var clientId = defaultAADAppId;
-            var body = $"resource={resource}&client_id={clientId}&grant_type=password&username={HttpUtility.UrlEncode(username)}&password={HttpUtility.UrlEncode(password)}";
-            using (var stringContent = new StringContent(body, Encoding.UTF8, "application/x-www-form-urlencoded"))
+            var pubApp = PublicClientApplicationBuilder
+                .Create(clientId)
+                .WithTenantId(tenantId)
+                .Build();
+            var pubResult = await pubApp.AcquireTokenByUsernamePassword(appScopes, userName, new NetworkCredential(string.Empty, password).SecurePassword).ExecuteAsync();
+            var userToken = pubResult.AccessToken;
+            var userAssertion = new UserAssertion(userToken);
+
+            var app = ConfidentialClientApplicationBuilder
+                .Create(clientId)
+                .WithTenantId(tenantId)
+                .WithClientSecret(clientSecret)
+                .Build();
+
+            var result = await app.AcquireTokenOnBehalfOf(spScopes, userAssertion).ExecuteAsync();
+            return result.AccessToken;
+
+        }
+        private static string TokenFromCache(string cacheKey, ConcurrentDictionary<string, string> tokenCache)
             {
-
-                var result = await httpClient.PostAsync(tokenEndpoint, stringContent).ContinueWith((response) =>
+                if (tokenCache.TryGetValue(cacheKey, out string accessToken))
                 {
-                    return response.Result.Content.ReadAsStringAsync().Result;
-                }).ConfigureAwait(false);
+                    return accessToken;
+                }
 
-                var tokenResult = JsonSerializer.Deserialize<JsonElement>(result);
-                var token = tokenResult.GetProperty("access_token").GetString();
-                return token;
-            }
-        }
-
-        private static string TokenFromCache(Uri web, ConcurrentDictionary<string, string> tokenCache)
-        {
-            if (tokenCache.TryGetValue(web.DnsSafeHost, out string accessToken))
-            {
-                return accessToken;
+                return null;
             }
 
-            return null;
-        }
-
-        private static void AddTokenToCache(Uri web, ConcurrentDictionary<string, string> tokenCache, string newAccessToken)
+        private static void AddTokenToCache(string cacheKey, ConcurrentDictionary<string, string> tokenCache, string newAccessToken)
         {
-            if (tokenCache.TryGetValue(web.DnsSafeHost, out string currentAccessToken))
+            if (tokenCache.TryGetValue(cacheKey, out string currentAccessToken))
             {
-                tokenCache.TryUpdate(web.DnsSafeHost, newAccessToken, currentAccessToken);
+                tokenCache.TryUpdate(cacheKey, newAccessToken, currentAccessToken);
             }
             else
             {
-                tokenCache.TryAdd(web.DnsSafeHost, newAccessToken);
+                tokenCache.TryAdd(cacheKey, newAccessToken);
             }
         }
 
-        private static void RemoveTokenFromCache(Uri web, ConcurrentDictionary<string, string> tokenCache)
+        private static void RemoveTokenFromCache(string cacheKey, ConcurrentDictionary<string, string> tokenCache)
         {
-            tokenCache.TryRemove(web.DnsSafeHost, out string currentAccessToken);
+            tokenCache.TryRemove(cacheKey, out string currentAccessToken);
         }
 
         private static TimeSpan CalculateThreadSleep(string accessToken)

@@ -50,6 +50,10 @@
               "target": "Package",
               "version": "[2021.9.0, )"
             },
+            "Microsoft.Identity.Client": {
+              "target": "Package",
+              "version": "[4.36.0, )"
+            },
             "Microsoft.SharePointOnline.CSOM": {
               "target": "Package",
               "version": "[16.1.21610.12000, )"

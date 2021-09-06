@@ -23,6 +23,15 @@
           "lib/netcoreapp2.0/_._": {}
         }
       },
+      "Microsoft.Identity.Client/4.36.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp2.1/Microsoft.Identity.Client.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/Microsoft.Identity.Client.dll": {}
+        }
+      },
       "Microsoft.IdentityModel.JsonWebTokens/6.12.2": {
         "type": "package",
         "dependencies": {
@@ -492,6 +501,38 @@
         "ref/xamarinwatchos10/_._",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Microsoft.Identity.Client/4.36.0": {
+      "sha512": "iSBniRMwVwpdlkOcFmAJmXSNhDm0rhbadtO16kg+80Y2wxR2oIOSyxtW9fAQDyS0xN2epbD7ZTJ9nFLzwiU1kg==",
+      "type": "package",
+      "path": "microsoft.identity.client/4.36.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/monoandroid10.0/Microsoft.Identity.Client.dll",
+        "lib/monoandroid10.0/Microsoft.Identity.Client.xml",
+        "lib/monoandroid90/Microsoft.Identity.Client.dll",
+        "lib/monoandroid90/Microsoft.Identity.Client.xml",
+        "lib/net45/Microsoft.Identity.Client.dll",
+        "lib/net45/Microsoft.Identity.Client.xml",
+        "lib/net461/Microsoft.Identity.Client.dll",
+        "lib/net461/Microsoft.Identity.Client.xml",
+        "lib/net5.0-windows10.0.17763/Microsoft.Identity.Client.dll",
+        "lib/net5.0-windows10.0.17763/Microsoft.Identity.Client.xml",
+        "lib/netcoreapp2.1/Microsoft.Identity.Client.dll",
+        "lib/netcoreapp2.1/Microsoft.Identity.Client.xml",
+        "lib/netstandard1.3/Microsoft.Identity.Client.dll",
+        "lib/netstandard1.3/Microsoft.Identity.Client.xml",
+        "lib/uap10.0/Microsoft.Identity.Client.dll",
+        "lib/uap10.0/Microsoft.Identity.Client.pri",
+        "lib/uap10.0/Microsoft.Identity.Client.xml",
+        "lib/xamarinios10/Microsoft.Identity.Client.dll",
+        "lib/xamarinios10/Microsoft.Identity.Client.xml",
+        "lib/xamarinmac20/Microsoft.Identity.Client.dll",
+        "lib/xamarinmac20/Microsoft.Identity.Client.xml",
+        "microsoft.identity.client.4.36.0.nupkg.sha512",
+        "microsoft.identity.client.nuspec"
       ]
     },
     "Microsoft.IdentityModel.JsonWebTokens/6.12.2": {
@@ -1826,6 +1867,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "IronOcr >= 2021.9.0",
+      "Microsoft.Identity.Client >= 4.36.0",
       "Microsoft.SharePointOnline.CSOM >= 16.1.21610.12000",
       "Newtonsoft.Json >= 13.0.1",
       "System.IdentityModel.Tokens.Jwt >= 6.12.2",
@@ -1883,6 +1925,10 @@
           "IronOcr": {
             "target": "Package",
             "version": "[2021.9.0, )"
+          },
+          "Microsoft.Identity.Client": {
+            "target": "Package",
+            "version": "[4.36.0, )"
           },
           "Microsoft.SharePointOnline.CSOM": {
             "target": "Package",

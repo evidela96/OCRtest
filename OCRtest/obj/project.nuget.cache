@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "GUsUt8ImgbAxHwD8oe+ll9A/iG8IFg6a3mVcZIec52G4yiFsiU1mVDwJ4iofgGBnj+4bZvttjZTpFuJVnqhOxQ==",
+  "dgSpecHash": "SNgZTcddaz8Jt3AIWmLcoS7o0F0VygQvFaXO7ZRhL7LXeyYYpJAMQUSNsE6cJkRA2WBH3dgEqcVnKIdyvxKubw==",
   "success": true,
   "projectFilePath": "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\OCRtest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\evidela\\.nuget\\packages\\ironocr\\2021.9.0\\ironocr.2021.9.0.nupkg.sha512",
     "C:\\Users\\evidela\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\microsoft.identity.client\\4.36.0\\microsoft.identity.client.4.36.0.nupkg.sha512",
     "C:\\Users\\evidela\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.12.2\\microsoft.identitymodel.jsonwebtokens.6.12.2.nupkg.sha512",
     "C:\\Users\\evidela\\.nuget\\packages\\microsoft.identitymodel.logging\\6.12.2\\microsoft.identitymodel.logging.6.12.2.nupkg.sha512",
     "C:\\Users\\evidela\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.12.2\\microsoft.identitymodel.tokens.6.12.2.nupkg.sha512",
