@@ -33,14 +33,14 @@ namespace OCRtest
 
             var tenantId = "2815c130-391b-4383-8743-e3413f343e08";
             var clientId = "df82286a-8297-412c-8fa0-a558fb62b826";
-            var clientSecret = "3da3c99e-14ed-4811-8491-00e884dde0f9";
+            var clientSecret = "tBtP-6avh3Xs1Z4U-m-nrJi-o4cdKO8~WB";
             var appScope = "api://df82286a-8297-412c-8fa0-a558fb62b826/Delegation";
 
             var userName = "evidela@andreani.com";
             var password = "zeroZymands000";
 
-            //var siteUrl = new Uri("https://<tenantName>.sharepoint.com/sites/<site_name>");
             var siteUrl = new Uri("https://grupologisticoandreani.sharepoint.com/teams/TestPowerApps2");
+           // var siteUrl = new Uri("https://grupologisticoandreani.sharepoint.com/teams/TestPowerApps2");
             using (var cc = new AuthenticationManager().GetContext(siteUrl, clientId, clientSecret, tenantId, appScope, userName, password))
             {
                 Console.WriteLine("Using user on-behalf-of");
