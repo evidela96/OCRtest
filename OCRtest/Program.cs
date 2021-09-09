@@ -37,7 +37,7 @@ namespace OCRtest
             var appScope = "api://df82286a-8297-412c-8fa0-a558fb62b826/Delegation";
 
             var userName = "evidela@andreani.com";
-            var password = "zeroZymands000";
+            var password = "";
 
             var siteUrl = new Uri("https://grupologisticoandreani.sharepoint.com/teams/TestPowerApps2");
            // var siteUrl = new Uri("https://grupologisticoandreani.sharepoint.com/teams/TestPowerApps2");
