@@ -15,18 +15,17 @@ namespace OCRtest
     {
         static async Task Main()
         {
-            //se tienen que llenar con el usuario y la url del sitio
-            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/TestPowerApps2");
+            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
+            string listName = "FotosPorDrone";
             string user = "evidela@andreani.com";
             SecureString password = GetSecureString(user);
 
-            // Note: The PnP Sites Core AuthenticationManager class also supports this
             using (var authenticationManager = new AuthenticationManager())
             using (var context = authenticationManager.GetContext(site, user, password))
             {
-                context.Load(context.Web, p => p.Title);
-                await context.ExecuteQueryAsync();
-                Console.WriteLine($"Title: {context.Web.Title}");
+                Console.WriteLine("Write new Title item:");
+                string textInput = Console.ReadLine();
+                InsertItem(context,textInput,site.ToString(),listName);
             }
         }
         private static SecureString GetSecureString(string user)
@@ -47,7 +46,30 @@ namespace OCRtest
                 }
                 // Exit if Enter key is pressed.
             } while (key.Key != ConsoleKey.Enter);
+            Console.WriteLine();
             return securePwd;
+        }
+        private static void InsertItem(ClientContext context , string textInput , string siteUri , string listName) 
+        {
+            // Assume that the web has a list named "Announcements".
+            List announcementsList = context.Web.Lists.GetByTitle(listName);
+
+            // We are just creating a regular list item, so we don't need to
+            // set any properties. If we wanted to create a new folder, for
+            // example, we would have to set properties such as
+            // UnderlyingObjectType to FileSystemObjectType.Folder.
+            ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
+            ListItem newItem = announcementsList.AddItem(itemCreateInfo);
+
+            FileCreationInformation newFile = new FileCreationInformation();
+            newFile.Content = System.IO.File.ReadAllBytes("C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/final_images/003-037-30_614c.PNG");
+            newFile.Url = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/final_images/003-037-30_614c.PNG";
+
+            newItem["Title"] = newFile;
+            //newItem["Body"] = body;
+            newItem.Update();
+
+            context.ExecuteQuery();
         }
     }
 }
