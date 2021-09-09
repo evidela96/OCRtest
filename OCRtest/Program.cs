@@ -16,8 +16,8 @@ namespace OCRtest
         static async Task Main()
         {
             //se tienen que llenar con el usuario y la url del sitio
-            Uri site = new Uri("");
-            string user = "";
+            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/TestPowerApps2");
+            string user = "evidela@andreani.com";
             SecureString password = GetSecureString(user);
 
             // Note: The PnP Sites Core AuthenticationManager class also supports this
