@@ -11,21 +11,22 @@ namespace OCRtest
     {
         static async Task Main()
         {
-            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
-            string filePath = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/fail_images/imagen9_1fa0.PNG";
-            string libraryName = "FotosPorDroneBiblioteca";
+            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/InventarioWH");
+            string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/final_images/";
+            string libraryName = "ImagenesDron - Test";
             string user = "evidela@andreani.com";
             SecureString password = GetSecureString(user);
+
+            string[] imagePathArray = Directory.GetFiles(sourceFiles);
 
             using (var authenticationManager = new AuthenticationManager())
             using (var context = authenticationManager.GetContext(site, user, password))
             {
-                //Console.WriteLine("Write new Title item:");
-                //string textInput = Console.ReadLine();
-                Console.WriteLine("Uploading file to Sharepoint...");
-                UploadDocumentContentStream(context, libraryName, filePath);
-                //InserItemToDocuments(context, libraryName);
-                //InserItemToDocuments(context,listName);
+                foreach (string imagePath in imagePathArray)
+                {
+                    Console.WriteLine("Uploading {0} to Sharepoint...", Path.GetFileName(imagePath));
+                    UploadDocumentContentStream(context, libraryName, imagePath);
+                }
             }
         }
         private static SecureString GetSecureString(string user)
@@ -116,11 +117,6 @@ namespace OCRtest
         public static void UploadDocumentContentStream(ClientContext ctx, string libraryName, string filePath)
         {
             Web web = ctx.Web;
-            // Ensure that the target library exists. Create it if it is missing.
-            //if (!LibraryExists(ctx, web, libraryName))
-            //{
-            //    CreateLibrary(ctx, web, libraryName);
-            //}
 
             using (FileStream fs = new FileStream(filePath, FileMode.Open))
             {
@@ -128,7 +124,7 @@ namespace OCRtest
 
                 // This is the key difference for the first case - using ContentStream property
                 flciNewFile.ContentStream = fs;
-                flciNewFile.Url = System.IO.Path.GetFileName(filePath);
+                flciNewFile.Url = Path.GetFileName(filePath);
                 flciNewFile.Overwrite = true;
 
                 List docs = web.Lists.GetByTitle(libraryName);
