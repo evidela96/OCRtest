@@ -1,12 +1,8 @@
-﻿using System;
+﻿using Microsoft.SharePoint.Client;
+using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Security;
-using System.Text.RegularExpressions;
-using IronOcr;
-using static OCRtest.AuthenticationManager;
-using Microsoft.SharePoint.Client;
 using System.Threading.Tasks;
 
 namespace OCRtest
@@ -16,16 +12,20 @@ namespace OCRtest
         static async Task Main()
         {
             Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
-            string listName = "FotosPorDrone";
+            string filePath = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/fail_images/imagen9_1fa0.PNG";
+            string libraryName = "FotosPorDroneBiblioteca";
             string user = "evidela@andreani.com";
             SecureString password = GetSecureString(user);
 
             using (var authenticationManager = new AuthenticationManager())
             using (var context = authenticationManager.GetContext(site, user, password))
             {
-                Console.WriteLine("Write new Title item:");
-                string textInput = Console.ReadLine();
-                InsertItem(context,textInput,site.ToString(),listName);
+                //Console.WriteLine("Write new Title item:");
+                //string textInput = Console.ReadLine();
+                Console.WriteLine("Uploading file to Sharepoint...");
+                UploadDocumentContentStream(context, libraryName, filePath);
+                //InserItemToDocuments(context, libraryName);
+                //InserItemToDocuments(context,listName);
             }
         }
         private static SecureString GetSecureString(string user)
@@ -49,8 +49,22 @@ namespace OCRtest
             Console.WriteLine();
             return securePwd;
         }
-        private static void InsertItem(ClientContext context , string textInput , string siteUri , string listName) 
+        private static void InserItemToDocuments(ClientContext context ,string libraryName) 
         {
+            string filePath = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/final_images/003-037-30_614c.PNG";
+
+            FileCreationInformation fci = new FileCreationInformation();
+            fci.Content = System.IO.File.ReadAllBytes(filePath);
+            fci.Url = Path.GetFileName(filePath);
+            Web web = context.Web;
+            List targetDocLib = web.Lists.GetByTitle(libraryName);
+            context.ExecuteQuery();
+            Microsoft.SharePoint.Client.File newFile = targetDocLib.RootFolder.Files.Add(fci);
+            context.Load(newFile);
+            context.ExecuteQuery();
+        }
+
+        private static void InsertTextItem(ClientContext context,  string listName) {
             // Assume that the web has a list named "Announcements".
             List announcementsList = context.Web.Lists.GetByTitle(listName);
 
@@ -60,16 +74,69 @@ namespace OCRtest
             // UnderlyingObjectType to FileSystemObjectType.Folder.
             ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
             ListItem newItem = announcementsList.AddItem(itemCreateInfo);
-
-            FileCreationInformation newFile = new FileCreationInformation();
-            newFile.Content = System.IO.File.ReadAllBytes("C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/final_images/003-037-30_614c.PNG");
-            newFile.Url = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/final_images/003-037-30_614c.PNG";
-
-            newItem["Title"] = newFile;
-            //newItem["Body"] = body;
+            newItem["Title"] = "My New Item!";
+           
+           // newItem["Body"] = "Hello World!";
             newItem.Update();
 
             context.ExecuteQuery();
+        }
+
+        private static void InsertDocVideo(ClientContext context, string listName)
+        {
+            string filePath = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Imágenes/Capturas de pantalla/reporteDuracell.PNG";
+
+            FileCreationInformation fcinfo = new FileCreationInformation();
+            fcinfo.Content = System.IO.File.ReadAllBytes(filePath);
+            fcinfo.Url =Path.GetFileName(filePath);
+            fcinfo.Overwrite = true;
+
+            Web myWeb = context.Web;
+            List myLibrary = myWeb.Lists.GetByTitle(listName);
+            myLibrary.RootFolder.Files.Add(fcinfo);
+
+            context.ExecuteQuery();
+
+        }
+
+        //public static void SaveBinaryDirect(ClientContext ctx, string libraryName, string filePath)
+        //{
+        //    Web web = ctx.Web;
+        //    // Ensure that the target library exists. Create it if it is missing.
+        //    //if (!LibraryExists(ctx, web, libraryName))
+        //    //{
+        //    //    CreateLibrary(ctx, web, libraryName);
+        //    //}
+
+        //    using (FileStream fs = new FileStream(filePath, FileMode.Open))
+        //    {
+        //        Microsoft.SharePoint.Client.File.SaveBinaryDirect(ctx, string.Format("/{0}/{1}", libraryName, Path.GetFileName(filePath)), fs, true);
+        //    }
+        //}
+        public static void UploadDocumentContentStream(ClientContext ctx, string libraryName, string filePath)
+        {
+            Web web = ctx.Web;
+            // Ensure that the target library exists. Create it if it is missing.
+            //if (!LibraryExists(ctx, web, libraryName))
+            //{
+            //    CreateLibrary(ctx, web, libraryName);
+            //}
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            {
+                FileCreationInformation flciNewFile = new FileCreationInformation();
+
+                // This is the key difference for the first case - using ContentStream property
+                flciNewFile.ContentStream = fs;
+                flciNewFile.Url = System.IO.Path.GetFileName(filePath);
+                flciNewFile.Overwrite = true;
+
+                List docs = web.Lists.GetByTitle(libraryName);
+                Microsoft.SharePoint.Client.File uploadFile = docs.RootFolder.Files.Add(flciNewFile);
+
+                ctx.Load(uploadFile);
+                ctx.ExecuteQuery();
+            }
         }
     }
 }
