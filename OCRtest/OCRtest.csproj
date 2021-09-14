@@ -6,10 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="bin\Debug\netcoreapp3.1\images\982021_1.jpeg" />
-    <Content Include="bin\Debug\netcoreapp3.1\images\982021_2.jpeg" />
-    <Content Include="bin\Debug\netcoreapp3.1\images\HojaTest.jpeg" />
-    <Content Include="bin\Debug\netcoreapp3.1\images\pallet3.jpeg" />
+    <Compile Remove="bin\Debug\netcoreapp3.1\images\**" />
+    <EmbeddedResource Remove="bin\Debug\netcoreapp3.1\images\**" />
+    <None Remove="bin\Debug\netcoreapp3.1\images\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +19,10 @@
     <PackageReference Include="IronOcr" Version="2021.9.0" />
     <PackageReference Include="Microsoft.SharePointOnline.CSOM" Version="16.1.21610.12000" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\Debug\netcoreapp3.1\" />
   </ItemGroup>
 
 </Project>

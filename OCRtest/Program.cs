@@ -35,6 +35,7 @@ namespace OCRtest
             foreach (var imagePath in imagePathArray)
             {
                 hit = false;
+
                 Console.WriteLine("Trying {0} ...", Path.GetFileName(imagePath));
 
                 Bitmap b = new Bitmap(imagePath);
@@ -74,10 +75,12 @@ namespace OCRtest
                                         + ".png";
                                 line.ToBitmap(input).Save(linePath);
                                 MatchCollection mc = Regex.Matches(Ocr.Read(linePath).Text, regEx);
+
                                 foreach (Match m in mc)
                                 {
                                     if (m.Success)
                                     {
+
                                         hit = SaveImageWithLocation(imagePath, finalImagePath, m);
                                     }
 
@@ -90,9 +93,16 @@ namespace OCRtest
                             Console.WriteLine("MISS");
                             SaveImageWithNoLocation(imagePath, failImagePath);
                         }
+
                     }
+                    
+                }
+                if (!hit)
+                {
+                    saveImageWithNoLocation(imagePath);
                 }
             }
+
 
             ManageDirectory(cutImagesPath);
 
@@ -102,6 +112,7 @@ namespace OCRtest
             
             using (var authenticationManager = new AuthenticationManager())
             using (var context = authenticationManager.GetContext(site, user, password))
+
             {
                 Console.WriteLine("Subiendo fotos con ubicacion a Sharepoint ...");
                 foreach (var imagePath in Directory.GetFiles(finalImagePath))
@@ -117,6 +128,7 @@ namespace OCRtest
                     UploadDocumentContentStream(context, libreriaFotosSinUbicacion, imagePath);
                 }
             }
+
         }
         
     }
