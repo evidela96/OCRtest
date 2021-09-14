@@ -22,28 +22,7 @@ namespace OCRtest
                     File.Delete(filePath);
                 }
             }
-            //if (!Directory.Exists(failImagePath))
-            //{
-            //    Directory.CreateDirectory(failImagePath);
-            //}
-            //else
-            //{
-            //    foreach (var filePath in Directory.GetFiles(failImagePath))
-            //    {
-            //        File.Delete(filePath);
-            //    }
-            //}
-            //if (!Directory.Exists(cutImagesPath))
-            //{
-            //    Directory.CreateDirectory(cutImagesPath);
-            //}
-            //else
-            //{
-            //    foreach (var filePath in Directory.GetFiles(cutImagesPath))
-            //    {
-            //        File.Delete(filePath);
-            //    }
-            //}
+            
         }
         public static void SaveImageWithNoLocation(string imagePath , string failImagePath)
         {

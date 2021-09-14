@@ -13,16 +13,6 @@ namespace OCRtest
 {
     class Program
     {
-        //private static string finalImagePath= "C:/Users/Public/ControInventarioDrone/final_images/";
-        //private static string failImagePath = "C:/Users/Public/ControInventarioDrone/fail_images/";
-        //private static readonly string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
-        //private static readonly string regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)";
-        
-        //private static readonly string sourceFiles = "D:/DCIM/100MEDIA";
-
-        //private static readonly Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
-        //private static readonly string libraryName = "FotosPorDroneBiblioteca";
-        
         static void Main()
         {
             var Ocr = new IronTesseract();
@@ -105,6 +95,7 @@ namespace OCRtest
             }
 
             ManageDirectory(cutImagesPath);
+
             Console.WriteLine("Usuario de Microsoft Office: ");
             string user = Console.ReadLine();
             SecureString password = GetSecureString(user);
@@ -125,9 +116,6 @@ namespace OCRtest
                     Console.WriteLine("\tSubiendo {0} ...", Path.GetFileName(imagePath));
                     UploadDocumentContentStream(context, libreriaFotosSinUbicacion, imagePath);
                 }
-                //Console.WriteLine("Subiendo fotos con ubicacion a Sharepoint ...");
-                //Console.WriteLine("Subiendo {0} ...", Path.GetFileName(sourceFiles));
-                //UploadDocumentContentStream(context, libraryName, sourceFiles);
             }
         }
         
