@@ -18,20 +18,11 @@ namespace OCRtest
             string user = "evidela@andreani.com";
             SecureString password = GetSecureString(user);
 
-            //string[] imagePathArray = Directory.GetFiles(sourceFiles);
-
             using (var authenticationManager = new AuthenticationManager())
             using (var context = authenticationManager.GetContext(site, user, password))
             {
-                //foreach (string imagePath in imagePathArray)
-                //{
-                    Console.WriteLine("Uploading {0} to Sharepoint...", Path.GetFileName(sourceFiles));
-                //InsertTextItem(context,libraryName);
-                //uploadFileAsAttach(context);
-                UploadDocumentContentStream(context, libraryName, sourceFiles, site.ToString());
-
-                //insertURL(context, site.ToString(), libraryName, sourceFiles);
-                //}
+                Console.WriteLine("Uploading {0} to Sharepoint...", Path.GetFileName(sourceFiles));
+                UploadDocumentContentStream(context, libraryName, sourceFiles);
             }
         }
         private static SecureString GetSecureString(string user)
@@ -119,7 +110,7 @@ namespace OCRtest
         //        Microsoft.SharePoint.Client.File.SaveBinaryDirect(ctx, string.Format("/{0}/{1}", libraryName, Path.GetFileName(filePath)), fs, true);
         //    }
         //}
-        public static void UploadDocumentContentStream(ClientContext ctx, string libraryName, string filePath , string siteUrl)
+        public static void UploadDocumentContentStream(ClientContext ctx, string libraryName, string filePath)
         {
             Web web = ctx.Web;
 
