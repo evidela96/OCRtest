@@ -1,13 +1,20 @@
 {
   "version": 2,
-  "dgSpecHash": "923MljjJE10pnCfKiBWRg/T3Q2c5YWM8NwwRshxVNzut0STSEOr+kG981EPw243DbGFKwqJ0vTmQMJdZrYHhZQ==",
+  "dgSpecHash": "GYGkYSjVgA07DOvEqGDWFWFUPJfgkxBk49TzP3mOl/2ixn3uC0YRO3ICUYm/TEWnQ+uq38IeXnVpA7wtkDsU2w==",
   "success": true,
   "projectFilePath": "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\OCRtest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\evidela\\.nuget\\packages\\ironocr\\2021.9.0\\ironocr.2021.9.0.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.12.2\\microsoft.identitymodel.jsonwebtokens.6.12.2.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\microsoft.identitymodel.logging\\6.12.2\\microsoft.identitymodel.logging.6.12.2.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.12.2\\microsoft.identitymodel.tokens.6.12.2.nupkg.sha512",
     "C:\\Users\\evidela\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\microsoft.sharepointonline.csom\\16.1.21610.12000\\microsoft.sharepointonline.csom.16.1.21610.12000.nupkg.sha512",
     "C:\\Users\\evidela\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
-    "C:\\Users\\evidela\\.nuget\\packages\\system.drawing.common\\5.0.2\\system.drawing.common.5.0.2.nupkg.sha512"
+    "C:\\Users\\evidela\\.nuget\\packages\\system.drawing.common\\5.0.2\\system.drawing.common.5.0.2.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.12.2\\system.identitymodel.tokens.jwt.6.12.2.nupkg.sha512",
+    "C:\\Users\\evidela\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

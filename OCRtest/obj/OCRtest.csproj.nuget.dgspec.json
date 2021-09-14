@@ -49,6 +49,14 @@
             "IronOcr": {
               "target": "Package",
               "version": "[2021.9.0, )"
+            },
+            "Microsoft.SharePointOnline.CSOM": {
+              "target": "Package",
+              "version": "[16.1.21610.12000, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.12.2, )"
             }
           },
           "imports": [

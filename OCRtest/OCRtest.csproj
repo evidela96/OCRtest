@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <PackageReference Include="IronOcr" Version="2021.9.0" />
+    <PackageReference Include="Microsoft.SharePointOnline.CSOM" Version="16.1.21610.12000" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
   </ItemGroup>
 
 </Project>

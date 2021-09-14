@@ -8,7 +8,9 @@
     ".NETCoreApp,Version=v3.1": {
       "OCRtest/1.0.0": {
         "dependencies": {
-          "IronOcr": "2021.9.0"
+          "IronOcr": "2021.9.0",
+          "Microsoft.SharePointOnline.CSOM": "16.1.21610.12000",
+          "System.IdentityModel.Tokens.Jwt": "6.12.2"
         },
         "runtime": {
           "OCRtest.dll": {}
@@ -25,7 +27,100 @@
           }
         }
       },
+      "Microsoft.CSharp/4.5.0": {},
+      "Microsoft.IdentityModel.JsonWebTokens/6.12.2": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Tokens": "6.12.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
+            "assemblyVersion": "6.12.2.0",
+            "fileVersion": "6.12.2.20820"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Logging/6.12.2": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.IdentityModel.Logging.dll": {
+            "assemblyVersion": "6.12.2.0",
+            "fileVersion": "6.12.2.20820"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Tokens/6.12.2": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "Microsoft.IdentityModel.Logging": "6.12.2",
+          "System.Security.Cryptography.Cng": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {
+            "assemblyVersion": "6.12.2.0",
+            "fileVersion": "6.12.2.20820"
+          }
+        }
+      },
       "Microsoft.NETCore.Platforms/5.0.0": {},
+      "Microsoft.SharePointOnline.CSOM/16.1.21610.12000": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Office.Client.Policy.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.Office.Client.TranslationServices.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.Office.SharePoint.Tools.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.Online.SharePoint.Client.Tenant.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.ProjectServer.Client.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.SharePoint.Client.DocumentManagement.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.SharePoint.Client.Publishing.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.SharePoint.Client.Runtime.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.SharePoint.Client.Search.Applications.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.SharePoint.Client.Search.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.SharePoint.Client.Taxonomy.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.SharePoint.Client.UserProfiles.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.SharePoint.Client.WorkflowServices.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          },
+          "lib/netstandard2.0/Microsoft.SharePoint.Client.dll": {
+            "assemblyVersion": "16.1.0.0",
+            "fileVersion": "16.1.21610.12000"
+          }
+        }
+      },
       "Microsoft.Win32.SystemEvents/5.0.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.0"
@@ -69,7 +164,20 @@
             "fileVersion": "5.0.421.11614"
           }
         }
-      }
+      },
+      "System.IdentityModel.Tokens.Jwt/6.12.2": {
+        "dependencies": {
+          "Microsoft.IdentityModel.JsonWebTokens": "6.12.2",
+          "Microsoft.IdentityModel.Tokens": "6.12.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.dll": {
+            "assemblyVersion": "6.12.2.0",
+            "fileVersion": "6.12.2.20820"
+          }
+        }
+      },
+      "System.Security.Cryptography.Cng/4.5.0": {}
     }
   },
   "libraries": {
@@ -85,12 +193,47 @@
       "path": "ironocr/2021.9.0",
       "hashPath": "ironocr.2021.9.0.nupkg.sha512"
     },
+    "Microsoft.CSharp/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
+      "path": "microsoft.csharp/4.5.0",
+      "hashPath": "microsoft.csharp.4.5.0.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.JsonWebTokens/6.12.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-krI9z6wjjIMCoQRmRicPt5oy9qrpCyXJhopkv4L+8uoN8l+NTmyv+gUCxkZKjiBqChgCL4cMvYCAkVdbjgpj+g==",
+      "path": "microsoft.identitymodel.jsonwebtokens/6.12.2",
+      "hashPath": "microsoft.identitymodel.jsonwebtokens.6.12.2.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Logging/6.12.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MGjGS5PIxGOdDSo3DzjqZ4qfy2i75R/CGE3aehCkflb4Brh617jg5F6GoFze321PMK1bjqiqQUFtGVuMKojDWg==",
+      "path": "microsoft.identitymodel.logging/6.12.2",
+      "hashPath": "microsoft.identitymodel.logging.6.12.2.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Tokens/6.12.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qG/UJzrcPYVEMHgP6X4Nko0yeLIwr4dM2qZvIC91WYMmt1zGvDWW9ybqGBOQAs3A5Wf2M1PozobHDGRW3MmINQ==",
+      "path": "microsoft.identitymodel.tokens/6.12.2",
+      "hashPath": "microsoft.identitymodel.tokens.6.12.2.nupkg.sha512"
+    },
     "Microsoft.NETCore.Platforms/5.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-VyPlqzH2wavqquTcYpkIIAQ6WdenuKoFN0BdYBbCWsclXacSOHNQn66Gt4z5NBqEYW0FAPm5rlvki9ZiCij5xQ==",
       "path": "microsoft.netcore.platforms/5.0.0",
       "hashPath": "microsoft.netcore.platforms.5.0.0.nupkg.sha512"
+    },
+    "Microsoft.SharePointOnline.CSOM/16.1.21610.12000": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LY0/Ey57MtH1MUX5xLwfW89dMdAUu9QHTEu469e8lVAQfG50lhVTy06lp0aJ9A/VYYDe+tJpTC9a+016xjMbiw==",
+      "path": "microsoft.sharepointonline.csom/16.1.21610.12000",
+      "hashPath": "microsoft.sharepointonline.csom.16.1.21610.12000.nupkg.sha512"
     },
     "Microsoft.Win32.SystemEvents/5.0.0": {
       "type": "package",
@@ -105,6 +248,20 @@
       "sha512": "sha512-rvr/M1WPf24ljpvvrVd74+NdjRUJu1bBkspkZcnzSZnmAUQWSvanlQ0k/hVHk+cHufZbZfu7vOh/vYc0q5Uu/A==",
       "path": "system.drawing.common/5.0.2",
       "hashPath": "system.drawing.common.5.0.2.nupkg.sha512"
+    },
+    "System.IdentityModel.Tokens.Jwt/6.12.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EuH4UucURwusIGhZNJFI3dS8d6voaaF00v9ezllvn5AlJk+5O5LC7rH967ktWbFeTTYlQx3ltlcRp1hW4VXKWQ==",
+      "path": "system.identitymodel.tokens.jwt/6.12.2",
+      "hashPath": "system.identitymodel.tokens.jwt.6.12.2.nupkg.sha512"
+    },
+    "System.Security.Cryptography.Cng/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WG3r7EyjUe9CMPFSs6bty5doUqT+q9pbI80hlNzo2SkPkZ4VTuZkGWjpp77JB8+uaL4DFPRdBsAY+DX3dBK92A==",
+      "path": "system.security.cryptography.cng/4.5.0",
+      "hashPath": "system.security.cryptography.cng.4.5.0.nupkg.sha512"
     }
   }
 }

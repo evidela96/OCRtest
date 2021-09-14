@@ -2,32 +2,48 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Security;
 using System.Text.RegularExpressions;
 using IronOcr;
+using static OCRtest.ImageFunctions;
+using static OCRtest.SharepointFunctions;
 
 
 namespace OCRtest
 {
     class Program
     {
-        private static readonly string finalImagePath= "C:/Users/Public/Picturesimages_3/final_images/";
-        private static readonly string failImagePath = "C:/Users/Public/Picturesimages_3/fail_images/";
-        private static readonly string cutImagesPath = "C:/Users/Public/Picturesimages_3/cut_images/";
-        private static readonly String regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)|([0-9][0-9]+ [0-9][0-9]+ [0-9][0-9]+)";
+        //private static string finalImagePath= "C:/Users/Public/ControInventarioDrone/final_images/";
+        //private static string failImagePath = "C:/Users/Public/ControInventarioDrone/fail_images/";
+        //private static readonly string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
+        //private static readonly string regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)";
         
-        //se debe cambiar este directorio
-        private static readonly string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/source_images";
+        //private static readonly string sourceFiles = "D:/DCIM/100MEDIA";
 
+        //private static readonly Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
+        //private static readonly string libraryName = "FotosPorDroneBiblioteca";
+        
         static void Main()
         {
             var Ocr = new IronTesseract();
             bool hit;
-            string[] imagePathArray = Directory.GetFiles(sourceFiles);
-            ManageDirectories();
+            string finalImagePath = "C:/Users/Public/ControInventarioDrone/final_images/";
+            string failImagePath = "C:/Users/Public/ControInventarioDrone/fail_images/";
+            string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
+            string regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)";
+
+            string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/test";
+            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
+            string libreriaFotosConUbicacion = "FotosPorDroneBiblioteca";
+            string libreriaFotosSinUbicacion = "FotosSinUbicacionPorDroneBiblioteca";
+        string[] imagePathArray = Directory.GetFiles(sourceFiles);
+
+            ManageDirectory(finalImagePath);
+            ManageDirectory(failImagePath);
+            ManageDirectory(cutImagesPath);
 
             foreach (var imagePath in imagePathArray)
             {
-                //int maxWidth = Image.FromFile(imagePath).Width;
                 hit = false;
                 Console.WriteLine("Trying {0} ...", Path.GetFileName(imagePath));
 
@@ -48,7 +64,7 @@ namespace OCRtest
                         {
                             if (m.Success)
                             {
-                                hit = SaveImageWithLocation(imagePath, m);
+                                hit = SaveImageWithLocation(imagePath, finalImagePath, m);
                             }
                         }
                         if (hit) break;
@@ -72,7 +88,7 @@ namespace OCRtest
                                 {
                                     if (m.Success)
                                     {
-                                        hit = SaveImageWithLocation(imagePath, m);
+                                        hit = SaveImageWithLocation(imagePath, finalImagePath, m);
                                     }
 
                                 }
@@ -82,73 +98,38 @@ namespace OCRtest
                         if (!hit)
                         {
                             Console.WriteLine("MISS");
-                            SaveImageWithNoLocation(imagePath);
+                            SaveImageWithNoLocation(imagePath, failImagePath);
                         }
                     }
                 }
             }
-        }
 
-        public static void ManageDirectories()
-        {
-            if (!Directory.Exists(finalImagePath))
+            ManageDirectory(cutImagesPath);
+            Console.WriteLine("Usuario de Microsoft Office: ");
+            string user = Console.ReadLine();
+            SecureString password = GetSecureString(user);
+            
+            using (var authenticationManager = new AuthenticationManager())
+            using (var context = authenticationManager.GetContext(site, user, password))
             {
-                Directory.CreateDirectory(finalImagePath);
-            }
-            else
-            {
-                foreach (var filePath in Directory.GetFiles(finalImagePath))
+                Console.WriteLine("Subiendo fotos con ubicacion a Sharepoint ...");
+                foreach (var imagePath in Directory.GetFiles(finalImagePath))
                 {
-                    File.Delete(filePath);
+                    Console.WriteLine("\tSubiendo {0} ...", Path.GetFileName(imagePath));
+                    UploadDocumentContentStream(context, libreriaFotosConUbicacion, imagePath);
                 }
-            }
-            if (!Directory.Exists(failImagePath))
-            {
-                Directory.CreateDirectory(failImagePath);
-            }
-            else
-            {
-                foreach (var filePath in Directory.GetFiles(failImagePath))
+
+                Console.WriteLine("Subiendo fotos sin ubicacion a Sharepoint ...");
+                foreach (var imagePath in Directory.GetFiles(failImagePath))
                 {
-                    File.Delete(filePath);
+                    Console.WriteLine("\tSubiendo {0} ...", Path.GetFileName(imagePath));
+                    UploadDocumentContentStream(context, libreriaFotosSinUbicacion, imagePath);
                 }
-            }
-            if (!Directory.Exists(cutImagesPath))
-            {
-                Directory.CreateDirectory(cutImagesPath);
-            }
-            else
-            {
-                foreach (var filePath in Directory.GetFiles(cutImagesPath))
-                {
-                    File.Delete(filePath);
-                }
+                //Console.WriteLine("Subiendo fotos con ubicacion a Sharepoint ...");
+                //Console.WriteLine("Subiendo {0} ...", Path.GetFileName(sourceFiles));
+                //UploadDocumentContentStream(context, libraryName, sourceFiles);
             }
         }
-        public static void SaveImageWithNoLocation(string imagePath)
-        {
-            Image m = Image.FromFile(imagePath);
-            m.Save(failImagePath + Path.GetFileNameWithoutExtension(imagePath) + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
-        }
-        public static bool SaveImageWithLocation(string imagePath, Match m)
-        {
-            bool hit = true;
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
-            Console.ResetColor();
-            Image img = Image.FromFile(imagePath);
-            img.Save(finalImagePath + m.Value + "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".png");
-            return hit;
-        }
-        public static Bitmap CropImage(Bitmap source, Rectangle section)
-        {
-            var bitmap = new Bitmap(section.Width, section.Height);
-            using (var g = Graphics.FromImage(bitmap))
-            {
-                g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
-                return bitmap;
-            }
-        }
-    
+        
     }
 }
