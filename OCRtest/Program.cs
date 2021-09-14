@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Security;
 using System.Threading.Tasks;
 
@@ -11,22 +12,26 @@ namespace OCRtest
     {
         static async Task Main()
         {
-            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/InventarioWH");
-            string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/final_images/";
-            string libraryName = "ImagenesDron - Test";
+            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
+            string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/final_images/003-045-30_fc9b.PNG";
+            string libraryName = "FotosPorDroneBiblioteca";
             string user = "evidela@andreani.com";
             SecureString password = GetSecureString(user);
 
-            string[] imagePathArray = Directory.GetFiles(sourceFiles);
+            //string[] imagePathArray = Directory.GetFiles(sourceFiles);
 
             using (var authenticationManager = new AuthenticationManager())
             using (var context = authenticationManager.GetContext(site, user, password))
             {
-                foreach (string imagePath in imagePathArray)
-                {
-                    Console.WriteLine("Uploading {0} to Sharepoint...", Path.GetFileName(imagePath));
-                    UploadDocumentContentStream(context, libraryName, imagePath);
-                }
+                //foreach (string imagePath in imagePathArray)
+                //{
+                    Console.WriteLine("Uploading {0} to Sharepoint...", Path.GetFileName(sourceFiles));
+                //InsertTextItem(context,libraryName);
+                //uploadFileAsAttach(context);
+                UploadDocumentContentStream(context, libraryName, sourceFiles, site.ToString());
+
+                //insertURL(context, site.ToString(), libraryName, sourceFiles);
+                //}
             }
         }
         private static SecureString GetSecureString(string user)
@@ -75,7 +80,7 @@ namespace OCRtest
             // UnderlyingObjectType to FileSystemObjectType.Folder.
             ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
             ListItem newItem = announcementsList.AddItem(itemCreateInfo);
-            newItem["Title"] = "My New Item!";
+            newItem["Title"] = "7";
            
            // newItem["Body"] = "Hello World!";
             newItem.Update();
@@ -114,7 +119,7 @@ namespace OCRtest
         //        Microsoft.SharePoint.Client.File.SaveBinaryDirect(ctx, string.Format("/{0}/{1}", libraryName, Path.GetFileName(filePath)), fs, true);
         //    }
         //}
-        public static void UploadDocumentContentStream(ClientContext ctx, string libraryName, string filePath)
+        public static void UploadDocumentContentStream(ClientContext ctx, string libraryName, string filePath , string siteUrl)
         {
             Web web = ctx.Web;
 
@@ -128,9 +133,51 @@ namespace OCRtest
                 flciNewFile.Overwrite = true;
 
                 List docs = web.Lists.GetByTitle(libraryName);
+                
                 Microsoft.SharePoint.Client.File uploadFile = docs.RootFolder.Files.Add(flciNewFile);
-
+                
                 ctx.Load(uploadFile);
+                ctx.ExecuteQuery();
+            }
+        }
+
+        public static void insertURL(ClientContext ctx , string siteUrl , string libraryName , string filePath) {
+            string absoluteURL = siteUrl + "/" + libraryName + "/" + Path.GetFileName(filePath);
+
+            List oList = ctx.Web.Lists.GetByTitle(libraryName);
+            //ListItem oListItem = oList.GetItemById(Path.GetFileName(filePath));
+            ctx.Load(oList);
+            ctx.ExecuteQuery();
+
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml =
+               @"<View>  
+               <Query> 
+                  <Where><Eq><FieldRef Name='FileLeafRef' /><Value Type='File'>" + Path.GetFileName(filePath) + @"</Value></Eq></Where> 
+               </Query> 
+                <ViewFields><FieldRef Name='FileRef' /><FieldRef Name='FileLeafRef' /></ViewFields> 
+         </View>";
+
+            ListItemCollection listItems = oList.GetItems(camlQuery);
+            ctx.Load(listItems);
+            ctx.ExecuteQuery();
+            var listItem = listItems.FirstOrDefault();
+            Console.WriteLine(listItem["FileRef"].ToString());
+            //oListItem["URL"] = absoluteURL;
+            //oListItem.Update();
+            //ctx.ExecuteQuery();
+        }
+        public static void uploadFileAsAttach(ClientContext ctx) {
+            var list = ctx.Web.Lists.GetByTitle("FotosPorDrone");
+            ListItem listItem = list.GetItemById("7");
+            var path = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/FotosPorDrone/final_images/003-042-20_c06b.PNG";
+            var attachmentInfo = new AttachmentCreationInformation();
+            attachmentInfo.FileName = Path.GetFileName(path);
+            
+            using (var fs = new FileStream(path, FileMode.Open))
+            {
+                attachmentInfo.ContentStream = fs;
+                var attachment = listItem.AttachmentFiles.Add(attachmentInfo);
                 ctx.ExecuteQuery();
             }
         }
