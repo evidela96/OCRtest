@@ -97,10 +97,7 @@ namespace OCRtest
                     }
                     
                 }
-                if (!hit)
-                {
-                    saveImageWithNoLocation(imagePath);
-                }
+                
             }
 
 
