@@ -22,10 +22,10 @@ namespace OCRtest
             string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
             string regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)";
 
-            string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/test";
-            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ControldeInventarioporDrone");
-            string libreriaFotosConUbicacion = "FotosPorDroneBiblioteca";
-            string libreriaFotosSinUbicacion = "FotosSinUbicacionPorDroneBiblioteca";
+            string sourceFiles = "D:/DCIM/100MEDIA";
+            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/InventarioWH");
+            string libreriaFotosConUbicacion = "ImagenesDron - Test";
+            string libreriaFotosSinUbicacion = "ImagenesDronNoLeida - Test";
         string[] imagePathArray = Directory.GetFiles(sourceFiles);
 
             ManageDirectory(finalImagePath);
@@ -97,10 +97,6 @@ namespace OCRtest
                     }
                     
                 }
-                if (!hit)
-                {
-                    saveImageWithNoLocation(imagePath);
-                }
             }
 
 
@@ -112,7 +108,6 @@ namespace OCRtest
             
             using (var authenticationManager = new AuthenticationManager())
             using (var context = authenticationManager.GetContext(site, user, password))
-
             {
                 Console.WriteLine("Subiendo fotos con ubicacion a Sharepoint ...");
                 foreach (var imagePath in Directory.GetFiles(finalImagePath))
