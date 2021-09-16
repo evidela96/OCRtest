@@ -16,7 +16,7 @@ namespace OCRtest
         static void Main()
         {
             var Ocr = new IronTesseract();
-            bool hit;
+            bool hit,binarize;
             string finalImagePath = "C:/Users/Public/ControInventarioDrone/final_images/";
             string failImagePath = "C:/Users/Public/ControInventarioDrone/fail_images/";
             string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
@@ -35,7 +35,7 @@ namespace OCRtest
             foreach (var imagePath in imagePathArray)
             {
                 hit = false;
-
+                binarize = false;
                 Console.WriteLine("Trying {0} ...", Path.GetFileName(imagePath));
 
                 Bitmap b = new Bitmap(imagePath);
@@ -66,6 +66,11 @@ namespace OCRtest
                         {
                             if (Regex.Match(line.Text, "[0-9]").Success)
                             {
+                                if (!binarize)
+                                {
+                                    input.Binarize();
+                                    binarize = true;
+                                }
                                 string linePath =
                                         cutImagesPath
                                         + "line_"
@@ -74,8 +79,9 @@ namespace OCRtest
                                         + Path.GetFileNameWithoutExtension(imagePath)
                                         + ".png";
                                 line.ToBitmap(input).Save(linePath);
-                                MatchCollection mc = Regex.Matches(Ocr.Read(linePath).Text, regEx);
 
+                                MatchCollection mc = Regex.Matches(Ocr.Read(linePath).Text, regEx);
+                                
                                 foreach (Match m in mc)
                                 {
                                     if (m.Success)
@@ -101,30 +107,30 @@ namespace OCRtest
             }
 
 
-            ManageDirectory(cutImagesPath);
+            //ManageDirectory(cutImagesPath);
 
-            Console.WriteLine("Usuario de Microsoft Office: ");
-            string user = Console.ReadLine();
-            SecureString password = GetSecureString(user);
+            //Console.WriteLine("Usuario de Microsoft Office: ");
+            //string user = Console.ReadLine();
+            //SecureString password = GetSecureString(user);
             
-            using (var authenticationManager = new AuthenticationManager())
-            using (var context = authenticationManager.GetContext(site, user, password))
+            //using (var authenticationManager = new AuthenticationManager())
+            //using (var context = authenticationManager.GetContext(site, user, password))
 
-            {
-                Console.WriteLine("Subiendo fotos con ubicacion a Sharepoint ...");
-                foreach (var imagePath in Directory.GetFiles(finalImagePath))
-                {
-                    Console.WriteLine("\tSubiendo {0} ...", Path.GetFileName(imagePath));
-                    UploadDocumentContentStream(context, libreriaFotosConUbicacion, imagePath);
-                }
+            //{
+            //    Console.WriteLine("Subiendo fotos con ubicacion a Sharepoint ...");
+            //    foreach (var imagePath in Directory.GetFiles(finalImagePath))
+            //    {
+            //        Console.WriteLine("\tSubiendo {0} ...", Path.GetFileName(imagePath));
+            //        UploadDocumentContentStream(context, libreriaFotosConUbicacion, imagePath);
+            //    }
 
-                Console.WriteLine("Subiendo fotos sin ubicacion a Sharepoint ...");
-                foreach (var imagePath in Directory.GetFiles(failImagePath))
-                {
-                    Console.WriteLine("\tSubiendo {0} ...", Path.GetFileName(imagePath));
-                    UploadDocumentContentStream(context, libreriaFotosSinUbicacion, imagePath);
-                }
-            }
+            //    Console.WriteLine("Subiendo fotos sin ubicacion a Sharepoint ...");
+            //    foreach (var imagePath in Directory.GetFiles(failImagePath))
+            //    {
+            //        Console.WriteLine("\tSubiendo {0} ...", Path.GetFileName(imagePath));
+            //        UploadDocumentContentStream(context, libreriaFotosSinUbicacion, imagePath);
+            //    }
+            //}
 
         }
         

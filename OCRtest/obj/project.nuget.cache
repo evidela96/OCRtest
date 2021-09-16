@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GYGkYSjVgA07DOvEqGDWFWFUPJfgkxBk49TzP3mOl/2ixn3uC0YRO3ICUYm/TEWnQ+uq38IeXnVpA7wtkDsU2w==",
+  "dgSpecHash": "q6+FUx/OjGnHGswk76Zl8BIvTOdMDxOxfamglIu2mLa1tiWWQpYEoheEkM4jrSwn+S7WNwN1lmSHnQXkFmUsDQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\OCRtest.csproj",
+  "projectFilePath": "C:\\Users\\evidela\\Source\\Repos\\OCRtest\\OCRtest\\OCRtest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\evidela\\.nuget\\packages\\ironocr\\2021.9.0\\ironocr.2021.9.0.nupkg.sha512",
     "C:\\Users\\evidela\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

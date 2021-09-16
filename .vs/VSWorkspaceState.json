@@ -1,12 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\OCRtest",
-    "\\OCRtest\\bin",
-    "\\OCRtest\\bin\\Debug",
-    "\\OCRtest\\bin\\Debug\\netcoreapp3.1",
-    "\\OCRtest\\bin\\Debug\\netcoreapp3.1\\images"
+    ""
   ],
-  "SelectedNode": "\\OCRtest\\Program.cs",
+  "SelectedNode": "\\OCRtest.sln (OCRtest.sln)",
   "PreviewInSolutionExplorer": false
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\OCRtest.csproj": {}
+    "C:\\Users\\evidela\\Source\\Repos\\OCRtest\\OCRtest\\OCRtest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\OCRtest.csproj": {
+    "C:\\Users\\evidela\\Source\\Repos\\OCRtest\\OCRtest\\OCRtest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\OCRtest.csproj",
+        "projectUniqueName": "C:\\Users\\evidela\\Source\\Repos\\OCRtest\\OCRtest\\OCRtest.csproj",
         "projectName": "OCRtest",
-        "projectPath": "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\OCRtest.csproj",
+        "projectPath": "C:\\Users\\evidela\\Source\\Repos\\OCRtest\\OCRtest\\OCRtest.csproj",
         "packagesPath": "C:\\Users\\evidela\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\evidela\\source\\repos\\OCRtest\\OCRtest\\obj\\",
+        "outputPath": "C:\\Users\\evidela\\Source\\Repos\\OCRtest\\OCRtest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
