@@ -22,11 +22,15 @@ namespace OCRtest
             string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
             string regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)";
 
-            string sourceFiles = "D:/DCIM/100MEDIA";
-            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/InventarioWH");
-            string libreriaFotosConUbicacion = "ImagenesDron - Test";
-            string libreriaFotosSinUbicacion = "ImagenesDronNoLeida - Test";
-        string[] imagePathArray = Directory.GetFiles(sourceFiles);
+            string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/test";
+            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ImagenesDrone");
+
+            string liberiaConUbicacionDestino = "";
+            string libreriaSinUbicacionDestino = "";
+            ManageLibraries(ref liberiaConUbicacionDestino, ref libreriaSinUbicacionDestino);
+
+            //breakingpoint
+            string[] imagePathArray = Directory.GetFiles(sourceFiles);
 
             ManageDirectory(finalImagePath);
             ManageDirectory(failImagePath);
@@ -95,36 +99,12 @@ namespace OCRtest
                         }
 
                     }
-                    
+
                 }
             }
-
-
             ManageDirectory(cutImagesPath);
-
-            Console.WriteLine("Usuario de Microsoft Office: ");
-            string user = Console.ReadLine();
-            SecureString password = GetSecureString(user);
-            
-            using (var authenticationManager = new AuthenticationManager())
-            using (var context = authenticationManager.GetContext(site, user, password))
-            {
-                Console.WriteLine("Subiendo fotos con ubicacion a Sharepoint ...");
-                foreach (var imagePath in Directory.GetFiles(finalImagePath))
-                {
-                    Console.WriteLine("\tSubiendo {0} ...", Path.GetFileName(imagePath));
-                    UploadDocumentContentStream(context, libreriaFotosConUbicacion, imagePath);
-                }
-
-                Console.WriteLine("Subiendo fotos sin ubicacion a Sharepoint ...");
-                foreach (var imagePath in Directory.GetFiles(failImagePath))
-                {
-                    Console.WriteLine("\tSubiendo {0} ...", Path.GetFileName(imagePath));
-                    UploadDocumentContentStream(context, libreriaFotosSinUbicacion, imagePath);
-                }
-            }
+            UploadToSharepointLibraries(finalImagePath, failImagePath, site, liberiaConUbicacionDestino, libreriaSinUbicacionDestino);
 
         }
-        
     }
 }

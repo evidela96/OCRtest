@@ -48,5 +48,6 @@ namespace OCRtest
                 return bitmap;
             }
         }
+
     }
 }
