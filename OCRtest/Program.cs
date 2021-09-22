@@ -22,14 +22,13 @@ namespace OCRtest
             string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
             string regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)";
 
-            string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/test";
+            string sourceFiles = "D:/DCIM/100MEDIA";
             Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ImagenesDrone");
 
             string liberiaConUbicacionDestino = "";
             string libreriaSinUbicacionDestino = "";
             ManageLibraries(ref liberiaConUbicacionDestino, ref libreriaSinUbicacionDestino);
 
-            //breakingpoint
             string[] imagePathArray = Directory.GetFiles(sourceFiles);
 
             ManageDirectory(finalImagePath);

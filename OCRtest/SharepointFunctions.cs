@@ -70,6 +70,7 @@ namespace OCRtest
 
                 Console.WriteLine("\nDesea Continuar ? (Ingrese 's' o 'n')");
                 confirmation = Console.ReadKey();
+                Console.WriteLine();
                 
             } while (!(option.KeyChar >= '1' && option.KeyChar <= '3') || (confirmation.KeyChar == 'n'));
 
