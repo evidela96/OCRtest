@@ -9,12 +9,12 @@ namespace OCRtest
 {
     class SharepointFunctions
     {
-        private static readonly string fotosConUbicacionFarmanet = "ImagenesDroneConUbicacion - Farmanet";
-        private static readonly string fotosSinUbicacionFarmanet = "ImagenesDroneSinUbicacion - Farmanet";
-        private static readonly string fotosConUbicacionRofina = "ImagenesDroneConUbicacion - Rofina";
-        private static readonly string fotosSinUbicacionRofina = "ImagenesDroneSinUbicacion - Rofina";
-        private static readonly string fotosConUbicacionBenaN2 = "ImagenesDroneConUbicacion - Benavidez Nave 2";
-        private static readonly string fotosSinUbicacionBenaN2 = "ImagenesDroneSinUbicacion - Benavidez Nave 2";
+        //private static readonly string fotosConUbicacionFarmanet = "ImagenesDroneConUbicacion - Farmanet";
+        //private static readonly string fotosSinUbicacionFarmanet = "ImagenesDroneSinUbicacion - Farmanet";
+        //private static readonly string fotosConUbicacionRofina = "ImagenesDroneConUbicacion - Rofina";
+        //private static readonly string fotosSinUbicacionRofina = "ImagenesDroneSinUbicacion - Rofina";
+        //private static readonly string fotosConUbicacionBenaN2 = "ImagenesDroneConUbicacion - Benavidez Nave 2";
+        //private static readonly string fotosSinUbicacionBenaN2 = "ImagenesDroneSinUbicacion - Benavidez Nave 2";
         public static SecureString GetSecureString(string user)
         {
             // Instantiate the secure string.
@@ -77,16 +77,16 @@ namespace OCRtest
             switch (option.KeyChar)
             {
                 case '1':
-                    liberiaConUbicacionDestino = fotosConUbicacionFarmanet;
-                    libreriaSinUbicacionDestino = fotosSinUbicacionFarmanet;
+                    liberiaConUbicacionDestino = "C:/inetpub/wwwroot/Farmanet/ConUbicacion/";
+                    libreriaSinUbicacionDestino = "C:/inetpub/wwwroot/Farmanet/SinUbicacion/";
                     break;
                 case '2':
-                    liberiaConUbicacionDestino = fotosConUbicacionRofina;
-                    libreriaSinUbicacionDestino = fotosSinUbicacionRofina;
+                    liberiaConUbicacionDestino = "C:/inetpub/wwwroot/Rofina/ConUbicacion/";
+                    libreriaSinUbicacionDestino = "C:/inetpub/wwwroot/Rofina/SinUbicacion/";
                     break;
                 case '3':
-                    liberiaConUbicacionDestino = fotosConUbicacionBenaN2;
-                    libreriaSinUbicacionDestino = fotosSinUbicacionBenaN2;
+                    liberiaConUbicacionDestino = "C:/inetpub/wwwroot/Benavidez Nave 2/ConUbicacion/";
+                    libreriaSinUbicacionDestino = "C:/inetpub/wwwroot/Benavidez Nave 2/SinUbicacion/";
                     break;
             }
         }
