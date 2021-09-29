@@ -23,7 +23,7 @@ namespace OCRtest
             string regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)";
 
             //string sourceFiles = "D:/DCIM/100MEDIA";
-            string sourceFiles = "C:/Users/evidela/OneDrive - ANDREANI LOGISTICA SA/Escritorio/test";
+            string sourceFiles = "D:/DCIM/100MEDIA";
             Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ImagenesDrone");
 
             string liberiaConUbicacionDestino = "";
