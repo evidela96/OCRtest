@@ -27,7 +27,7 @@ namespace OCRtest
         public static void SaveImageWithNoLocation(string imagePath , string failImagePath)
         {
             Image m = Image.FromFile(imagePath);
-            m.Save(failImagePath + Path.GetFileNameWithoutExtension(imagePath) /*+ "_" + Guid.NewGuid().ToString().Substring(0, 4)*/ + ".png");
+            m.Save(failImagePath + Path.GetFileNameWithoutExtension(imagePath)+ ".png");
         }
         public static bool SaveImageWithLocation(string imagePath, string finalImagePath , Match m)
         {
@@ -36,7 +36,7 @@ namespace OCRtest
             Console.WriteLine("File: {1} Match : {0}", m.Value, Path.GetFileName(imagePath));
             Console.ResetColor();
             Image img = Image.FromFile(imagePath);
-            img.Save(finalImagePath + m.Value /*+ "_" + Guid.NewGuid().ToString().Substring(0, 4) */+ ".png");
+            img.Save(finalImagePath + m.Value + ".png");
             return hit;
         }
         public static Bitmap CropImage(Bitmap source, Rectangle section)

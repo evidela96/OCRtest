@@ -17,23 +17,19 @@ namespace OCRtest
         {
             var Ocr = new IronTesseract();
             bool hit;
-            //string finalImagePath = "C:/Users/Public/ControInventarioDrone/final_images/";
-            //string failImagePath = "C:/Users/Public/ControInventarioDrone/fail_images/";
+
             string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
             string regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)";
 
-            //string sourceFiles = "D:/DCIM/100MEDIA";
             string sourceFiles = "D:/DCIM/100MEDIA";
-            Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ImagenesDrone");
+            //Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ImagenesDrone");
 
-            string liberiaConUbicacionDestino = "";
-            string libreriaSinUbicacionDestino = "";
-            ManageLibraries(ref liberiaConUbicacionDestino, ref libreriaSinUbicacionDestino);
+            string carpetaConUbicacion = "";
+            string carpetaSinUbicacion = "";
+            ManageLibraries(ref carpetaConUbicacion, ref carpetaSinUbicacion);
 
             string[] imagePathArray = Directory.GetFiles(sourceFiles);
 
-            //ManageDirectory(finalImagePath);
-            //ManageDirectory(failImagePath);
             ManageDirectory(cutImagesPath);
 
             foreach (var imagePath in imagePathArray)
@@ -59,7 +55,7 @@ namespace OCRtest
                         {
                             if (m.Success)
                             {
-                                hit = SaveImageWithLocation(imagePath, liberiaConUbicacionDestino, m);
+                                hit = SaveImageWithLocation(imagePath, carpetaConUbicacion, m);
                             }
                         }
                         if (hit) break;
@@ -85,7 +81,7 @@ namespace OCRtest
                                     if (m.Success)
                                     {
 
-                                        hit = SaveImageWithLocation(imagePath, liberiaConUbicacionDestino, m);
+                                        hit = SaveImageWithLocation(imagePath, carpetaConUbicacion, m);
                                     }
 
                                 }
@@ -95,7 +91,7 @@ namespace OCRtest
                         if (!hit)
                         {
                             Console.WriteLine("MISS");
-                            SaveImageWithNoLocation(imagePath, libreriaSinUbicacionDestino);
+                            SaveImageWithNoLocation(imagePath, carpetaSinUbicacion);
                         }
 
                     }
@@ -103,7 +99,6 @@ namespace OCRtest
                 }
             }
             ManageDirectory(cutImagesPath);
-            //UploadToSharepointLibraries(finalImagePath, failImagePath, site, liberiaConUbicacionDestino, libreriaSinUbicacionDestino);
 
         }
     }

@@ -9,12 +9,6 @@ namespace OCRtest
 {
     class SharepointFunctions
     {
-        //private static readonly string fotosConUbicacionFarmanet = "ImagenesDroneConUbicacion - Farmanet";
-        //private static readonly string fotosSinUbicacionFarmanet = "ImagenesDroneSinUbicacion - Farmanet";
-        //private static readonly string fotosConUbicacionRofina = "ImagenesDroneConUbicacion - Rofina";
-        //private static readonly string fotosSinUbicacionRofina = "ImagenesDroneSinUbicacion - Rofina";
-        //private static readonly string fotosConUbicacionBenaN2 = "ImagenesDroneConUbicacion - Benavidez Nave 2";
-        //private static readonly string fotosSinUbicacionBenaN2 = "ImagenesDroneSinUbicacion - Benavidez Nave 2";
         public static SecureString GetSecureString(string user)
         {
             // Instantiate the secure string.
