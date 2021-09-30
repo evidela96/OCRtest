@@ -6,7 +6,7 @@ using System.Security;
 using System.Text.RegularExpressions;
 using IronOcr;
 using static OCRtest.ImageFunctions;
-using static OCRtest.SharepointFunctions;
+using static OCRtest.ServerFunctions;
 
 
 namespace OCRtest
@@ -19,14 +19,16 @@ namespace OCRtest
             bool hit;
 
             string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
-            string regEx = "([0-9]+-[0-9]+-[0-9]+)|([C,c,P,p][0-9]+-[0-9]+-[0-9]+)";
+            string regEx = "([0-9]+-[0-9]+-[2-9][0-9])|([C,c,P,p][0-9]+-[0-9]+-[2-9][0-9])";
 
             string sourceFiles = "D:/DCIM/100MEDIA";
             //Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ImagenesDrone");
 
             string carpetaConUbicacion = "";
             string carpetaSinUbicacion = "";
-            ManageLibraries(ref carpetaConUbicacion, ref carpetaSinUbicacion);
+
+            ManageFolders(ref carpetaConUbicacion, ref carpetaSinUbicacion);
+            
 
             string[] imagePathArray = Directory.GetFiles(sourceFiles);
 
