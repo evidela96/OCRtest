@@ -36,7 +36,7 @@ namespace OCRtest
 
             foreach (var imagePath in imagePathArray)
             {
-                hit = false;
+                hit = false,
 
                 Console.WriteLine("Trying {0} ...", Path.GetFileName(imagePath));
 
