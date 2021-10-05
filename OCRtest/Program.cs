@@ -27,7 +27,7 @@ namespace OCRtest
             string carpetaConUbicacion = "";
             string carpetaSinUbicacion = "";
 
-            ManageFolders(ref carpetaConUbicacion, ref carpetaSinUbicacion);
+            ManageLibraries(ref carpetaConUbicacion, ref carpetaSinUbicacion);
             
 
             string[] imagePathArray = Directory.GetFiles(sourceFiles);

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OCRtest
 {
-    class SharepointFunctions
+    class ServerFunctions
     {
         public static SecureString GetSecureString(string user)
         {
@@ -84,6 +84,7 @@ namespace OCRtest
                     break;
             }
         }
+        
         public static void UploadToSharepointLibraries(string finalImagePath, string failImagePath, Uri site, string liberiaConUbicacionDestino, string libreriaSinUbicacionDestino)
         {
             string user;
