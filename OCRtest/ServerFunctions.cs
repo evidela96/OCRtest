@@ -71,16 +71,16 @@ namespace OCRtest
             switch (option.KeyChar)
             {
                 case '1':
-                    liberiaConUbicacionDestino = "C:/inetpub/wwwroot/Farmanet/ConUbicacion/";
-                    libreriaSinUbicacionDestino = "C:/inetpub/wwwroot/Farmanet/SinUbicacion/";
+                    liberiaConUbicacionDestino = "\\\\NB100537\\Fotos\\Farmanet\\ConUbicacion\\";
+                    libreriaSinUbicacionDestino = "\\\\NB100537\\Fotos\\Farmanet\\SinUbicacion\\";
                     break;
                 case '2':
-                    liberiaConUbicacionDestino = "C:/inetpub/wwwroot/Rofina/ConUbicacion/";
-                    libreriaSinUbicacionDestino = "C:/inetpub/wwwroot/Rofina/SinUbicacion/";
+                    liberiaConUbicacionDestino = "C:/temp/fotos/Rofina/ConUbicacion/";
+                    libreriaSinUbicacionDestino = "C:/temp/fotos/Rofina/SinUbicacion/";
                     break;
                 case '3':
-                    liberiaConUbicacionDestino = "C:/inetpub/wwwroot/Benavidez Nave 2/ConUbicacion/";
-                    libreriaSinUbicacionDestino = "C:/inetpub/wwwroot/Benavidez Nave 2/SinUbicacion/";
+                    liberiaConUbicacionDestino = "C:/temp/fotos/Benavidez Nave 2/ConUbicacion/";
+                    libreriaSinUbicacionDestino = "C:/temp/fotos/Benavidez Nave 2/SinUbicacion/";
                     break;
             }
         }

@@ -18,10 +18,10 @@ namespace OCRtest
             var Ocr = new IronTesseract();
             bool hit;
 
-            string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
+            string cutImagesPath = "\\\\NB100537\\Fotos\\cut_images\\";
             string regEx = "([0-9]+-[0-9]+-[2-9][0-9])|([C,c,P,p][0-9]+-[0-9]+-[2-9][0-9])";
 
-            string sourceFiles = "D:/DCIM/100MEDIA";
+            string sourceFiles = "\\\\NB100537\\Fotos\\FotosOriginales\\";
             //Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ImagenesDrone");
 
             string carpetaConUbicacion = "";
@@ -30,7 +30,7 @@ namespace OCRtest
             ManageLibraries(ref carpetaConUbicacion, ref carpetaSinUbicacion);
             
 
-            string[] imagePathArray = Directory.GetFiles(sourceFiles);
+            string[] imagePathArray = Directory.GetFiles(sourceFiles,"*.jp*");
 
             ManageDirectory(cutImagesPath);
 
