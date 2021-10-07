@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
 using IronOcr;
@@ -15,14 +16,16 @@ namespace OCRtest
     {
         static void Main()
         {
+            Installation.LicenseKey = "IRONOCR.DEVTEAM.IRO211001.1586.56158.100112-9D7ACE374A-CTZUR5OSM7EAP-LOU76DHZ54CP-NO6PNMKW2L6Q-E4FEEQ2IKFOE-EFACSUJ5FCYS-SK6QO2-LIGVSQPV6M2HUA-PROFESSIONAL.SUB-PZBACF.RENEW.SUPPORT.01.OCT.2022 ";
+            
             var Ocr = new IronTesseract();
             bool hit;
 
-            string cutImagesPath = "C:/Users/Public/ControInventarioDrone/cut_images/";
+            string cutImagesPath = "C:/inetpub/wwwroot/Fotos/cut_images/";
             string regEx = "([0-9]+-[0-9]+-[2-9][0-9])|([C,c,P,p][0-9]+-[0-9]+-[2-9][0-9])";
 
-            string sourceFiles = "D:/DCIM/100MEDIA";
-            //Uri site = new Uri("https://grupologisticoandreani.sharepoint.com/teams/ImagenesDrone");
+            string sourceFiles = "C:/inetpub/wwwroot/Fotos/FotosOriginales/";
+            
 
             string carpetaConUbicacion = "";
             string carpetaSinUbicacion = "";
@@ -31,12 +34,12 @@ namespace OCRtest
             
 
             string[] imagePathArray = Directory.GetFiles(sourceFiles);
-
+            imagePathArray = imagePathArray.Where(w => w != imagePathArray[0]).ToArray();
             ManageDirectory(cutImagesPath);
 
             foreach (var imagePath in imagePathArray)
             {
-                hit = false,
+                hit = false;
 
                 Console.WriteLine("Trying {0} ...", Path.GetFileName(imagePath));
 
