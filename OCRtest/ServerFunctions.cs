@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace OCRtest
 {
@@ -51,40 +52,14 @@ namespace OCRtest
                 ctx.ExecuteQuery();
             }
         }
-        public static void ManageLibraries(ref string liberiaConUbicacionDestino, ref string libreriaSinUbicacionDestino)
+        public static void ManageFileServerFolders(string cliente,ref string liberiaConUbicacionDestino, ref string libreriaSinUbicacionDestino, ref string rutaFotosOriginales , ref string rutaCut_Images, ref IConfigurationRoot configuration )
         {
-            ConsoleKeyInfo option, confirmation;
-            do
-            {
-                Console.WriteLine("\nSelecciona una opcion (del 1 al 3) :");
-                Console.WriteLine("\t1 - Farmanet");
-                Console.WriteLine("\t2 - Rofina");
-                Console.WriteLine("\t3 - Benavidez Nave 2");
-                option = Console.ReadKey();
-
-                Console.WriteLine("\nDesea Continuar ? (Ingrese 's' o 'n')");
-                confirmation = Console.ReadKey();
-                Console.WriteLine();
-                
-            } while (!(option.KeyChar >= '1' && option.KeyChar <= '3') || (confirmation.KeyChar == 'n'));
-
-            switch (option.KeyChar)
-            {
-                case '1':
-                    liberiaConUbicacionDestino = "\\\\NB100537\\Fotos\\Farmanet\\ConUbicacion\\";
-                    libreriaSinUbicacionDestino = "\\\\NB100537\\Fotos\\Farmanet\\SinUbicacion\\";
-                    break;
-                case '2':
-                    liberiaConUbicacionDestino = "C:/temp/fotos/Rofina/ConUbicacion/";
-                    libreriaSinUbicacionDestino = "C:/temp/fotos/Rofina/SinUbicacion/";
-                    break;
-                case '3':
-                    liberiaConUbicacionDestino = "C:/temp/fotos/Benavidez Nave 2/ConUbicacion/";
-                    libreriaSinUbicacionDestino = "C:/temp/fotos/Benavidez Nave 2/SinUbicacion/";
-                    break;
-            }
+            liberiaConUbicacionDestino = configuration["Destinos:"+cliente+":ConUbicacion"];
+            libreriaSinUbicacionDestino = configuration["Destinos:"+cliente+":SinUbicacion"];
+            rutaFotosOriginales = configuration["Destinos:"+cliente+":FotosOriginales"];
+            rutaCut_Images = configuration["Destinos:"+cliente+":cut_images"];
         }
-        
+
         public static void UploadToSharepointLibraries(string finalImagePath, string failImagePath, Uri site, string liberiaConUbicacionDestino, string libreriaSinUbicacionDestino)
         {
             string user;
@@ -119,5 +94,6 @@ namespace OCRtest
                 }
             }
         }
+        
     }
 }
