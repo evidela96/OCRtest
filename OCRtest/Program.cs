@@ -1,6 +1,7 @@
 ﻿using IronOcr;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -50,7 +51,13 @@ namespace OCRtest
 
                     if (Directory.GetFiles(sourceFiles).Length > 0)
                     {
-                        string[] imagePathArray = Directory.GetFiles(sourceFiles, "*.jp*");
+                        //string[] imagePathArray = Directory.GetFiles(sourceFiles, "*.jp*;*.png");
+
+                        List<string> list = new List<string>();
+                        list.AddRange(Directory.GetFiles(sourceFiles, "*.jp*"));
+                        list.AddRange(Directory.GetFiles(sourceFiles, "*.png*"));
+
+                        String[] imagePathArray = list.ToArray();
 
                         foreach (var imagePath in imagePathArray)
                         {
